@@ -1,0 +1,13 @@
+
+
+data(columns,index)
+
+pands.DataFarm 使用
+    .shape # 回傳列數與欄數
+    .describe() # 回傳描述性統計
+    .head(X)# 回傳前X筆觀測值
+    .tail(X)# 回傳後X筆觀測值
+    .columns # 回傳欄位名稱
+    .index # 回傳 index
+    .info() # 回傳資料內容
+    .sort_values(by='排列名稱')

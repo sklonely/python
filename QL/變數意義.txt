@@ -1,0 +1,12 @@
+檔案名稱   |功能
+maze_env   |環境(網路上高手寫的)
+RL_brain   |AI功能核心(本次練習重點)
+run_this   |程式主循環
+
+變數:
+  RL_bain內
+     1.actions      :   環境給回的能選擇的動作
+     2.learning_rate:   學習率(0~1)
+     3.reward_decay :   獎勵
+     4.e_greedy     :   衰減率
+     5.q_table      :   Q表

@@ -1,0 +1,20 @@
+{
+    "python.pythonPath": "python",
+    "python.autoComplete.addBrackets": true,
+    "python.envFile": "${workspaceFolder}/.envFile",
+    "editor.formatOnSave": true,
+    "python.autoComplete.extraPaths": [],
+    "python.linting.flake8Enabled": true,
+    "python.formatting.provider": "yapf",
+    "python.linting.flake8Args": [ // flake8Args 檢查器參數
+        "--max-line-length=321", // 一行最長字數
+        "--ignore=F401,E722,E501,E266" // 忽略掉這些錯誤
+    ],
+    "python.linting.pylintEnabled": false,
+    "python.formatting.yapfArgs": [
+        "--max-line-length=321" // 一行最長字數
+    ],
+    "files.autoSave": "afterDelay",
+    "files.insertFinalNewline": true,
+    "editor.snippetSuggestions": "inline"
+}
