@@ -1,9 +1,11 @@
 # -- coding: utf-8 --
-import requests
-import threading as thd
-import pandas as pd # 引用套件並縮寫為 pd
-import time
 import csv
+import threading as thd
+import time
+
+import pandas as pd  # 引用套件並縮寫為 pd
+import requests
+
 exitflag=1#RateWebGet忙綠旗標
 fileflag=1#檔案旗標
 def main():
