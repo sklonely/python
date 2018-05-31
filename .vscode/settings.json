@@ -16,5 +16,6 @@
     ],
     "files.autoSave": "afterDelay",
     "files.insertFinalNewline": true,
-    "editor.snippetSuggestions": "inline"
+    "editor.snippetSuggestions": "inline",
+    "sync.autoUpload": true
 }
