@@ -1,6 +1,5 @@
 import openpyxl
 
-
 wb = openpyxl.load_workbook('mysql_table.xlsx')
 print("sheet Loading OK")
 
@@ -20,7 +19,7 @@ def sheetGetData(sheetname):  # 從sheet獲取所有資料的list
     for x in row:
         data.append([])
         for cell in list(sheet1.rows)[x]:  # 讀取excel row 1 全部資料(table)
-            data[x-1].append(cell.value)
+            data[x - 1].append(cell.value)
     return data
 
 

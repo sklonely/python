@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-#¾÷¾¹¾Ç²ß ½m²ß
-#BY sklonley
+# BY sklonley
 
 import time
 from sklearn import datasets
@@ -8,22 +6,24 @@ from sklearn.cross_validation import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 
+
 def main():
-	iris= datasets.load_iris()
+    iris = datasets.load_iris()
 
-	X=iris.data
-	Y=iris.targer
+    X = iris.data
+    Y = iris.targer
 
-	X_train,X_test,Y_train,Y_test=train_test_split(X,Y,test_size=0.5)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.5)
 
-	my_classifier=KNeighborsClassifier()
-	my_classifier.fit(X_train,Y_train)
+    my_classifier = KNeighborsClassifier()
+    my_classifier.fit(X_train, Y_train)
 
-	predicitions=my_classifier.predict(X_test)
+    predicitions = my_classifier.predict(X_test)
 
-	#print accuracy_score(Y_test,predicitions)
-	
-	#st=input (u"½Ð«ö¥ô¤@¥óÄ~Äò")
-	#time.sleep(4)
+    # print accuracy_score(Y_test,predicitions)
+
+    # st=input (u"ï¿½Ð«ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½~ï¿½ï¿½")
+    # time.sleep(4)
+
 
 main()

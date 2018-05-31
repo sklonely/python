@@ -14,7 +14,6 @@ data = data[::-1]
 normalize_data = (data - np.mean(data)) / np.std(data)
 normalize_data = normalize_data[:, np.newaxis]
 
-
 time_step = 20
 rnn_unit = 10
 batch_size = 60
@@ -28,12 +27,18 @@ for i in range(len(normalize_data) - time_step - 1):
     train_x.append(x.tolist())
     train_y.append(y.tolist())
 
-
 X = tf.placeholder(tf.float32, [None, time_step, input_size])
 Y = tf.placeholder(tf.float32, [None, time_step, output_size])
 
 weights = {'in': tf.Variable(tf.random_normal([input_size, rnn_unit])), 'out': tf.Variable(tf.random_normal([rnn_unit, 1]))}
-biases = {'in': tf.Variable(tf.constant(0.1, shape=[rnn_unit, ])), 'out': tf.Variable(tf.constant(0.1, shape=[1, ]))}
+biases = {
+    'in': tf.Variable(tf.constant(0.1, shape=[
+        rnn_unit,
+    ])),
+    'out': tf.Variable(tf.constant(0.1, shape=[
+        1,
+    ]))
+}
 
 
 def lstm(batch):
@@ -66,7 +71,7 @@ def train_lstm():
             step = 0
             start = 0
             end = start + batch_size
-            while(end < len(train_x)):
+            while (end < len(train_x)):
                 _, loss_ = sess.run([train_op, loss], feed_dict={X: train_x[start:end], Y: train_y[start:end]})
                 start += batch_size
                 end = start + batch_size

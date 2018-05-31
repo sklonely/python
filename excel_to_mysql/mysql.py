@@ -8,7 +8,10 @@ import openpyxl
 
 # 获取一个数据库连接，注意如果是UTF-8类型的，需要制定数据库
 # port 必须是数字不能为字符串
-db = pymysql.connect(host='localhost', db='test',)
+db = pymysql.connect(
+    host='localhost',
+    db='test',
+)
 print("資料庫連接成功")
 # 使用 cursor() 方法创建一个游标对象 cursor
 cursor = db.cursor()
@@ -24,56 +27,56 @@ for tab in tabNames:  # 每一個工作表 都當一個tabel
     # ------------
 
     # 如果table存在則刪除他
-    sql = "DROP TABLE IF EXISTS "+tab
+    sql = "DROP TABLE IF EXISTS " + tab
     cursor.execute(sql)
 
     # 創建table開始
-    sql = "CREATE TABLE "+tab+"("
+    sql = "CREATE TABLE " + tab + "("
     for i in tabCol:  # 創建指令生成
-        if i != tabCol[len(tabCol)-1]:
-            sql = sql+i+" char(50),"
+        if i != tabCol[len(tabCol) - 1]:
+            sql = sql + i + " char(50),"
         else:
-            sql = sql+i+" char(50));"
-    #---------------- 創建指令生成結束
+            sql = sql + i + " char(50));"
+    # ---------------- 創建指令生成結束
     print(sql)  # 印出創建指令 供除錯
     cursor.execute(sql)
     # 創建結束
 
     # 對table輸入資料開始
-    sql = "INSERT INTO "+tab+"("  # 通用指令生成
+    sql = "INSERT INTO " + tab + "("  # 通用指令生成
     for i in tabCol:
-        if i != tabCol[len(tabCol)-1]:
-            sql = sql+i+", "
+        if i != tabCol[len(tabCol) - 1]:
+            sql = sql + i + ", "
         else:
-            sql = sql+i+") VALUES("
-    #---------------------------- 通用指令生成結束
+            sql = sql + i + ") VALUES("
+    # ---------------------------- 通用指令生成結束
 
     sqlt = sql  # 通用指令暫存
 
     if (tabRowLen == 1):  # 資料只有1筆
         for i in tabRow:  # values指令生成(單筆的)
-            if i != tabRow[len(tabRow)-1]:
-                sql = sql+str(i)+", "
+            if i != tabRow[len(tabRow) - 1]:
+                sql = sql + str(i) + ", "
             else:
-                sql = sql+str(i)+");"
-    #-------------------- values指令生成結束(單筆的)
+                sql = sql + str(i) + ");"
+    # -------------------- values指令生成結束(單筆的)
 
     else:  # --------------- 資料多筆
         for row in tabRow:
             temp = sqlt
             for i in row:  # values指令生成(多筆的)
-                if i != row[len(row)-1]:
-                    temp = temp+"\'"+str(i)+"\', "
+                if i != row[len(row) - 1]:
+                    temp = temp + "\'" + str(i) + "\', "
                 else:
-                    temp = temp+"\'"+str(i)+"\');"
+                    temp = temp + "\'" + str(i) + "\');"
                     sql = temp
-    #---------------------- values指令生成(多筆的)
+                    # ---------------------- values指令生成(多筆的)
                     print(sql)  # 印出資料輸入指令 供除錯
                     cursor.execute(sql)
                     db.commit()
     # 對table輸入資料結束
     # 印出資料表內容 供除錯
-    sql = "SELECT * FROM "+tab+";"
+    sql = "SELECT * FROM " + tab + ";"
     print(sql)
     cursor.execute(sql)
     results = cursor.fetchall()
@@ -82,7 +85,7 @@ for tab in tabNames:  # 每一個工作表 都當一個tabel
 
 db.close()
 print("資料庫關閉_程式結束")
-#cursor.execute("DROP TABLE IF EXISTS TEST")
+# cursor.execute("DROP TABLE IF EXISTS TEST")
 """
 # 使用 execute() 方法执行 SQL，如果表存在则删除
 cursor.execute("DROP TABLE IF EXISTS TEST")

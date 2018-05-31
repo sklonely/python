@@ -12,7 +12,8 @@
     ],
     "python.linting.pylintEnabled": false,
     "python.formatting.yapfArgs": [
-        "--max-line-length=321" // 一行最長字數
+        "--style",
+        "{based_on_style: google, indent_width: 4,COLUMN_LIMIT: 321}"
     ],
     "files.autoSave": "afterDelay",
     "files.insertFinalNewline": false,

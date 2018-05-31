@@ -10,12 +10,13 @@ window.title('my window')
 window.geometry('200x100')
 
 var = tk.StringVar()
-l = tk.Label(window, textvariable=var, bg='green', font=('Arial', 12), width=15,
-             height=2)
-#l = tk.Label(window, text='OMG! this is TK!', bg='green', font=('Arial', 12), width=15, height=2)
+l = tk.Label(window, textvariable=var, bg='green', font=('Arial', 12), width=15, height=2)
+# l = tk.Label(window, text='OMG! this is TK!', bg='green', font=('Arial', 12), width=15, height=2)
 l.pack()
 
 on_hit = False
+
+
 def hit_me():
     global on_hit
     if on_hit == False:
@@ -24,10 +25,13 @@ def hit_me():
     else:
         on_hit = False
         var.set('')
+
+
 def sss():
-    print (10)
-b = tk.Button(window, text='hit me', width=15,
-              height=2, command=sss)
+    print(10)
+
+
+b = tk.Button(window, text='hit me', width=15, height=2, command=sss)
 b.pack()
 
 window.mainloop()
