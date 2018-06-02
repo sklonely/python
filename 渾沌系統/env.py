@@ -38,16 +38,16 @@ def add_layers(inputs, input_size, output_size, activation_funtion=None):  # 創
 
 def tenstest(x_data, y_data):
     # 創建類神經網路
-    L1 = add_layers(x_data, 1, 20, activation_funtion=tf.nn.relu)
-    L2 = add_layers(L1, 20, 5, activation_funtion=tf.nn.relu)
-    predition = add_layers(L2, 5, 1, activation_funtion=None)
+    L1 = add_layers(x_data, 1, 200, activation_funtion=tf.nn.relu)
+    L2 = add_layers(L1, 200, 100, activation_funtion=tf.nn.relu)
+    predition = add_layers(L2, 100, 1, activation_funtion=None)
     loss = tf.reduce_mean(tf.reduce_sum(tf.square(y_data - predition), reduction_indices=[1]))
     train_step = tf.train.GradientDescentOptimizer(0.01).minimize(loss)
     init = tf.initialize_all_variables()
     # 運行圖
     with tf.Session() as sess:
         sess.run(init)
-        for step in range(100000000):
+        for step in range(50000):
             sess.run(train_step)
             if step % 20 == 0:
                 print(step, sess.run([loss]))
