@@ -16,7 +16,7 @@ a = 0.9
 b = -0.6013
 c = 2
 d = 0.5
-
+t = []
 for i in range(100):
 
     e1.append(x1[i] - y1[i])
@@ -25,19 +25,21 @@ for i in range(100):
     x2.append(2 * x1[i] * x2[i] + c * x1[i] + d * x2[i])
     y1.append((y1[i]**2) - (y2[i]**2) + a * (y1[i]) + b * y2[i])
     y2.append(2 * y1[i] * y2[i] + c * y1[i] + d * y2[i])
+    t.append(i)
 
 plt.figure()
 plt.subplot(211)
 plt.xticks(fontsize=18)
 plt.yticks(fontsize=18)
-plt.plot(e1, ".")
+plt.plot(t, x1[0:100], ".", y1[0:100], 'o')
 plt.xlabel("T", fontsize=24)
-plt.ylabel("e1 = x1 - y1", fontsize=24)
+plt.ylabel("x1 & y1", fontsize=24)
 
 plt.subplot(212)
 plt.xticks(fontsize=18)
 plt.yticks(fontsize=18)
-plt.plot(e2, ".")
+plt.plot(t, x2[0:100], ".", y2[0:100], "o")
 plt.xlabel("T", fontsize=24)
-plt.ylabel("e2 = x2 - y2", fontsize=24)
+plt.ylabel("x2 & y2", fontsize=24)
+
 plt.show()
