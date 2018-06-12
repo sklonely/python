@@ -3,7 +3,8 @@ import os
 import requests
 
 
-url = "https://google.com.tw"
+url = "https://info.stu.edu.tw/login/sysLogin.asp"
 r = requests.get(url)
-re = r.json()
-print(re)
+url = "https://info.stu.edu.tw/login/SysLoginAction.asp"
+r = requests.post(url)
+print(r.text)
