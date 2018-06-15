@@ -17,7 +17,8 @@
     ],
     "files.autoSave": "afterDelay",
     "files.insertFinalNewline": false,
-    "editor.snippetSuggestions": "none",
+    "editor.snippetSuggestions": "top",
     "sync.autoUpload": true,
-    "editor.detectIndentation": false
+    "editor.detectIndentation": false,
+    "emmet.showSuggestionsAsSnippets": true
 }
