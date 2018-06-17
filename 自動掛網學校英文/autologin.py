@@ -24,9 +24,9 @@ while 1:
         break
 # import自動修復 程式碼片段
 
-iedriver = "IEDriverServer.exe"
-driver = webdriver.Ie(iedriver)
-driver.get("http://cu.stu.edu.tw/")
+iedriver = "D:\chromedriver_win32\chromedriver.exe"
+driver = webdriver.Chrome(iedriver)
+driver.get("http://cu.stu.edu.tw/learn/index.php")
 actions = ActionChains(driver)
 # 顯示標題
 print(driver.title)
@@ -37,7 +37,9 @@ paswElement = driver.find_element_by_name("password")
 loginElement = driver.find_element_by_class_name("cssLoginBtn")
 print(driver.find_element_by_name("username").location)
 # 搜尋框輸入字
-uesElement.send_keys("s16115106" + Keys.TAB + Keys.ENTER)
-# paswElement.send_keys(Keys.ENTER)
+uesElement.send_keys("s16115106" + Keys.TAB)
+paswElement.send_keys("lonely1953721" + Keys.ENTER)
 # 提交
-time.sleep(3.8)
+time.sleep(2.8)
+classElement = driver.find_element_by_xpath("//*[@id='tabsCourse']/tbody/tr[6]/td[1]/div/a")
+print(classElement)
