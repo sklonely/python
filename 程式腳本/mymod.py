@@ -31,7 +31,7 @@ def Findimg(humd, file):  # 視窗前景找圖
     win32gui.SetForegroundWindow(humd)  # 將視窗至回前景
     x = pyautogui.locateOnScreen(file)
     print(u"這是debug X值:", x)
-    if x != None:
+    if (x is not None):
         imglocation = x[0] + x[2] / 2, x[1] + x[3] / 2
         print(u"抓圖成功")
         return imglocation  # 回傳圖片中央位置
