@@ -1,5 +1,6 @@
 # import自動修復 程式碼片段Stste
 lestModName = ""
+err = ""
 while 1:
     try:
         import sys
@@ -23,7 +24,7 @@ while 1:
         break
 # import自動修復 程式碼片段
 
-iedriver = "C:\IEDriverServer.exe"
+iedriver = "IEDriverServer.exe"
 driver = webdriver.Ie(iedriver)
 driver.get("http://cu.stu.edu.tw/")
 actions = ActionChains(driver)
