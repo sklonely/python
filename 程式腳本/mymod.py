@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # 少女前線 使用腳本
-#import cv2
+# import cv2
 
 import time
 import win32api

@@ -1,17 +1,27 @@
+# import自動修復 程式碼片段Stste
+err = ""
+lestModName = ""
 while 1:
     try:
-        import os
-        # import datetime  # 時間
         import sys
+        import os
+        # 要import的東西放這下面
         import gspread  # 雲端
         from oauth2client.service_account import \
             ServiceAccountCredentials  # google oauth
     except ModuleNotFoundError:
-        err = str(sys.exc_info()[1])
-        print("缺少mod name: " + err[17:-1] + "正在進行安裝")
-        os.system('pip install ' + err[17:-1])
+        err = str(sys.exc_info()[1])[17:-1]
+        if (lestModName != err):
+            print("缺少mod: " + err + " 正在嘗試進行安裝")
+            os.system("pip install " + err)
+            lestModName = err
+        else:
+            print("無法修復import問題 請人工檢查", "mod name: " + err)
+            sys.exit()
     else:
+        del lestModName, err
         break
+# import自動修復 程式碼片段
 
 
 class GoogleSheet():
@@ -20,8 +30,7 @@ class GoogleSheet():
         try:
             global scope, creds, client, sheet
             scope = ['https://www.googleapis.com/auth/drive']  # host sever
-            creds = ServiceAccountCredentials.from_json_keyfile_name(
-                sys.path[0] + '/client_secret.json', scope)  # atuh 驗證 記得準備認證用的檔案
+            creds = ServiceAccountCredentials.from_json_keyfile_name(sys.path[0] + '/client_secret.json', scope)  # atuh 驗證 記得準備認證用的檔案
             client = gspread.authorize(creds)  # 雲端硬碟宣告
             sheet = client.open(sheetName).sheet1  # 試算表宣告(括號內要改成你自己雲端裡面的sheet檔案)
             print("找到資料表: " + str(sheet))
@@ -55,6 +64,7 @@ class GoogleSheet():
             return "cell error"
         else:
             return res
+
 
 # init("你要開的sheet檔案名稱")
 # ---------------指令簡約表
