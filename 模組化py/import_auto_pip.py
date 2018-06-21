@@ -4,8 +4,9 @@ while 1:
     try:
         import sys
         import os
+        sys.path.append(sys.path[0] + '/mods/')  # 將自己mods的路徑加入倒python lib裡面
         # 要import的東西放這下面
-
+        import aaa
     except (ModuleNotFoundError, ImportError):  # python import error
         err = str(sys.exc_info()[1])[17:-1]
         if (lestModName != err):
