@@ -36,3 +36,14 @@ Response Cookies					1334
     590e55XbD_e8d7_sid	deleted	.eyny.com	/	2017-06-28T12:43:02.000Z	92				
     590e55XbD_e8d7_txlang	deleted	.eyny.com	/	2017-06-28T12:43:02.000Z	95				
     590e55XbD_e8d7_txlang	0	.eyny.com	/	2018-06-29T12:43:03.000Z	89	
+
+{   'X-Powered-By': 'PHP/5.2.17',
+    'Content-Type': 'text/html; charset=utf-8',
+    'Set-Cookie': '590e55XbD_e8d7_lastvisit=1530187786; expires=Sat, 28-Jul-2018 13:09:46 GMT; path=/; domain=.eyny.com, 590e55XbD_e8d7_lastact=1530191386%09member.php%09logging; expires=Fri, 29-Jun-2018 13:09:46 GMT; path=/; domain=.eyny.com, 590e55XbD_e8d7_inlang=zh; expires=Fri, 29-Jun-2018 13:09:46 GMT; path=/; domain=.eyny.com, 590e55XbD_e8d7_txlang=0; expires=Fri, 29-Jun-2018 13:09:46 GMT; path=/; domain=.eyny.com, 590e55XbD_e8d7_sid=deleted; expires=Wed, 28-Jun-2017 13:09:45 GMT; path=/; domain=.eyny.com, 590e55XbD_e8d7_lastvisit=deleted; expires=Wed, 28-Jun-2017 13:09:45 GMT; path=/; domain=.eyny.com, 590e55XbD_e8d7_lastact=deleted; expires=Wed, 28-Jun-2017 13:09:45 GMT; path=/; domain=.eyny.com, 590e55XbD_e8d7_inlang=deleted; expires=Wed, 28-Jun-2017 13:09:45 GMT; path=/; domain=.eyny.com, 590e55XbD_e8d7_txlang=deleted; expires=Wed, 28-Jun-2017 13:09:45 GMT; path=/; domain=.eyny.com',
+    'Expires': '-1', 
+    'Cache-Control': 'no-store, private, post-check=0, pre-check=0, max-age=0',
+    'Pragma': 'no-cache', 'X-Frame-Options': 'SAMEORIGIN',
+    'Vary': 'Accept-Encoding, Accept-Encoding',
+    'Content-Encoding': 'gzip', 'Transfer-Encoding': 'chunked',
+    'Date': 'Thu, 28 Jun 2018 13:09:46 GMT',
+    'Server': 'Apache/2.0.59'}

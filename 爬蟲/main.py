@@ -74,9 +74,10 @@ def login():
     payload = {'formhash': from_hahs, 'referer': 'http://www.eyny.com/index.php', 'loginfield': 'username', 'username': 'asd1953721', 'password': 'asd195375', 'questionid': '0', 'answer': '', 'cookietime': '2592000'}
 
     result = session_requests.post(forum_url + login_hahs, data=payload, headers=headers)
-    result = session_requests.get(forum_url, headers=dict(referer=forum_url))
-    soup = BeautifulSoup(result.text, "html.parser")
-    print(soup)
+    auth = str(list(result.cookies)[0])
+    auth = auth[auth.find("=") + 1:auth.find(" f") - 1]
+    print(auth)
+    return auth
 
 
 def login22():
