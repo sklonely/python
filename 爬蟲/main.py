@@ -35,27 +35,14 @@ novel = []
 
 
 # 登入論壇
-def getOpener(head):
-    # deal with the Cookies
-    cj = http.cookiejar.CookieJar()
-    pro = urllib.request.HTTPCookieProcessor(cj)
-    opener = urllib.request.build_opener(pro)
-    header = []
-    for key, value in head.items():
-        elem = (key, value)
-        header.append(elem)
-    opener.addheaders = header
-    return opener
-
-
-def login():
+def get_auth():
     session_requests = requests.session()
     result = session_requests.get(forum_url + "member.php?mod=logging&action=login")
     tree = html.fromstring(result.text)
     # time.sleep(1)
     from_hahs = list(set(tree.xpath('//*[@id="scbar_form"]/input[2]/@value')))[0]
     login_hahs = list(set(tree.xpath('//*[@name="login"]/@action')))[0]
-    print(from_hahs, login_hahs)
+    ##
     headers = {
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
         'Accept-Encoding': 'gzip, deflate',
@@ -74,10 +61,22 @@ def login():
     payload = {'formhash': from_hahs, 'referer': 'http://www.eyny.com/index.php', 'loginfield': 'username', 'username': 'asd1953721', 'password': 'asd195375', 'questionid': '0', 'answer': '', 'cookietime': '2592000'}
 
     result = session_requests.post(forum_url + login_hahs, data=payload, headers=headers)
+
     auth = str(list(result.cookies)[0])
-    auth = auth[auth.find("=") + 1:auth.find(" f") - 1]
-    print(auth)
+    print(auth[auth.find(" "):auth.find("=")], auth[auth.find("=") + 1:auth.find(" f")])
+    auth = [auth[auth.find(" "):auth.find("=")], auth[auth.find("=") + 1:auth.find(" f")]]
     return auth
+
+
+def login(authname, auth):
+    session_requests = requests.session()
+    print("送出錢",session_requests.cookies)
+    result = session_requests.get(forum_url, cookies={authname: auth})
+    print("送出後",session_requests.cookies)
+    soup = BeautifulSoup(result.text, "html.parser")
+    a_tags = soup.find_all('font')
+    for tag in a_tags:
+        print(tag)
 
 
 def login22():
@@ -118,7 +117,7 @@ def login22():
 
     html = urllib.request.urlopen(forum_url + novel[0][2])
     soup = BeautifulSoup(html, "html.parser")
-    print(soup)
+    print(html.cookies)
 
-
-login()
+a = get_auth()
+login(a[0], a[1])
