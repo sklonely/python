@@ -30,10 +30,18 @@ while 1:
 forum_url = "http://www02.eyny.com/"
 novel_sort_name = []
 novel = []
+headers = {
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'Accept-Encoding': 'gzip, deflate',
+    'Accept-Language': 'zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Referer': 'http://www.eyny.com/member.php?mod=logging&action=login',
+    'Upgrade-Insecure-Requests': '1',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36'
+}
+
 
 # 管制區結束
-
-
 # 登入論壇
 def get_auth():
     session_requests = requests.session()
@@ -43,28 +51,14 @@ def get_auth():
     from_hahs = list(set(tree.xpath('//*[@id="scbar_form"]/input[2]/@value')))[0]
     login_hahs = list(set(tree.xpath('//*[@name="login"]/@action')))[0]
     ##
-    headers = {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-        'Accept-Encoding': 'gzip, deflate',
-        'Accept-Language': 'zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6',
-        'Cache-Control': 'max-age=0',
-        'Connection': 'keep-alive',
-        'Content-Length': '162',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Cookie': 'username=asd1953721',
-        'Host': 'www.eyny.com',
-        'Origin': 'http://www.eyny.com',
-        'Referer': 'http://www.eyny.com/member.php?mod=logging&action=login',
-        'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36'
-    }
+
     payload = {'formhash': from_hahs, 'referer': 'http://www.eyny.com/index.php', 'loginfield': 'username', 'username': 'asd1953721', 'password': 'asd195375', 'questionid': '0', 'answer': '', 'cookietime': '2592000'}
 
-    result = session_requests.post(forum_url + login_hahs, data=payload,headers = headers)
-    print(result.headers)
+    result = session_requests.post(forum_url + login_hahs, data=payload, headers=headers)
+    session_requests.headers = headers
 
     auth = str(list(result.cookies)[0])
-    print(auth[auth.find(" "):auth.find("=")], auth[auth.find("=") + 1:auth.find(" f")])
+    print("獲得登入認證碼: ", auth[auth.find(" "):auth.find("=")], auth[auth.find("=") + 1:auth.find(" f")])
     auth = [auth[auth.find(" "):auth.find("=")], auth[auth.find("=") + 1:auth.find(" f")]]
 
     result = session_requests.get(forum_url + 'index.php', cookies=result.cookies)
