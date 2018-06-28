@@ -60,19 +60,27 @@ def get_auth():
     }
     payload = {'formhash': from_hahs, 'referer': 'http://www.eyny.com/index.php', 'loginfield': 'username', 'username': 'asd1953721', 'password': 'asd195375', 'questionid': '0', 'answer': '', 'cookietime': '2592000'}
 
-    result = session_requests.post(forum_url + login_hahs, data=payload, headers=headers)
+    result = session_requests.post(forum_url + login_hahs, data=payload,headers = headers)
+    print(result.headers)
 
     auth = str(list(result.cookies)[0])
     print(auth[auth.find(" "):auth.find("=")], auth[auth.find("=") + 1:auth.find(" f")])
     auth = [auth[auth.find(" "):auth.find("=")], auth[auth.find("=") + 1:auth.find(" f")]]
+
+    result = session_requests.get(forum_url + 'index.php', cookies=result.cookies)
+
+    soup = BeautifulSoup(result.text, "html.parser")
+    a_tags = soup.find_all('strong')
+    for tag in a_tags:
+        print(tag)
     return auth
 
 
 def login(authname, auth):
     session_requests = requests.session()
-    print("送出錢",session_requests.cookies)
-    result = session_requests.get(forum_url, cookies={authname: auth})
-    print("送出後",session_requests.cookies)
+    print("送出錢", session_requests.headers)
+    result = session_requests.get(forum_url)
+    print("送出後", session_requests.cookies)
     soup = BeautifulSoup(result.text, "html.parser")
     a_tags = soup.find_all('font')
     for tag in a_tags:
@@ -119,5 +127,5 @@ def login22():
     soup = BeautifulSoup(html, "html.parser")
     print(html.cookies)
 
-a = get_auth()
-login(a[0], a[1])
+
+get_auth()
