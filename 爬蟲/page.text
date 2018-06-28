@@ -1,0 +1,38 @@
+## Requests
+Cookie:
+    username=asd1953721
+    590e55XbD_e8d7_sid = 透過get網頁取得
+
+
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6
+Cache-Control: max-age=0
+Connection: keep-alive
+Content-Length: 162
+Content-Type: application/x-www-form-urlencoded
+Cookie: username=asd1953721; 590e55XbD_e8d7_sid=MEUMRD
+Host: www.eyny.com
+Origin: http://www.eyny.com
+Referer: http://www.eyny.com/member.php?mod=logging&action=login
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+
+
+Request Cookies					46				
+    590e55XbD_e8d7_sid	yHEGES	N/A	N/A	N/A	25				
+    username	asd1953721	N/A	N/A	N/A	21				
+Response Cookies					1334				
+    590e55XbD_e8d7_activationauth	deleted	.eyny.com	/	2017-06-28T12:43:02.000Z	103				
+    590e55XbD_e8d7_auth	6193g1kOgv3iWxEJ7sK7XRV6gOdhW08kXQG8lWPCVJJNOD29%2BHnwBYHO%2FcgJkA	.eyny.com	/	2018-07-28T12:43:03.000Z	162	✓			
+    590e55XbD_e8d7_inlang	zh	.eyny.com	/	2018-06-29T12:43:03.000Z	90				
+    590e55XbD_e8d7_inlang	deleted	.eyny.com	/	2017-06-28T12:43:02.000Z	95				
+    590e55XbD_e8d7_lastact	deleted	.eyny.com	/	2017-06-28T12:43:02.000Z	96				
+    590e55XbD_e8d7_lastact	1530189783%09member.php%09logging	.eyny.com	/	2018-06-29T12:43:03.000Z	122				
+    590e55XbD_e8d7_lastvisit	deleted	.eyny.com	/	2017-06-28T12:43:02.000Z	98				
+    590e55XbD_e8d7_lastvisit	1530186183	.eyny.com	/	2018-07-28T12:43:03.000Z	101				
+    590e55XbD_e8d7_loginuser	deleted	.eyny.com	/	2017-06-28T12:43:02.000Z	98				
+    590e55XbD_e8d7_pmnum	deleted	.eyny.com	/	2017-06-28T12:43:02.000Z	93				
+    590e55XbD_e8d7_sid	deleted	.eyny.com	/	2017-06-28T12:43:02.000Z	92				
+    590e55XbD_e8d7_txlang	deleted	.eyny.com	/	2017-06-28T12:43:02.000Z	95				
+    590e55XbD_e8d7_txlang	0	.eyny.com	/	2018-06-29T12:43:03.000Z	89	
