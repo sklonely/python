@@ -27,8 +27,13 @@ while 1:
 # import自動修復 程式碼片段
 
 # 變數管制
-forum_url = "http://www02.eyny.com/"
-novel_sort_name = []
+# 使用者帳密
+username = ''
+password = ''
+##
+forum_url = "http://www02.eyny.com/"  # 論壇網址
+novel_sort_name = []  # 小說分類 [["玄幻魔法小說", html], ..]
+novel_sort_maxpage = 0  # 小說
 novel = []
 headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
@@ -41,55 +46,71 @@ headers = {
 }
 auth_cookies = ''
 
+##
+
 
 # 登入論壇
 def get_auth():
-    session_requests = requests.session()
-    # session_requests.headers = headers
+    session_requests = requests.session()  # 建立requests連接
+    session_requests.headers = headers  # 初始化headers
+
+    # 取得from_hahs 跟 login_hahs
     result = session_requests.get(forum_url + "member.php?mod=logging&action=login")
     tree = html.fromstring(result.text)
-    # time.sleep(1)
+    time.sleep(0.1)
     from_hahs = list(set(tree.xpath('//*[@id="scbar_form"]/input[2]/@value')))[0]
     login_hahs = list(set(tree.xpath('//*[@name="login"]/@action')))[0]
     ##
 
+    # 創建POST 用的data from
     payload = {'formhash': from_hahs, 'referer': 'http://www.eyny.com/index.php', 'loginfield': 'username', 'username': 'asd1953721', 'password': 'asd195375', 'questionid': '0', 'answer': '', 'cookietime': '2592000'}
+    ##
 
+    # 發送POST請求 取得auth cookies
     result = session_requests.post(forum_url + login_hahs, data=payload, headers=headers)
-    session_requests.headers = headers
-
     auth = str(list(result.cookies)[0])
-    print("獲得登入認證碼: ", auth[auth.find(" "):auth.find("=")], auth[auth.find("=") + 1:auth.find(" f")])
+    print("獲取登入認證碼: ", auth[auth.find(" "):auth.find("=")], auth[auth.find("=") + 1:auth.find(" f")])
+    ##
+
+    # 獲取登入狀態
     auth = [auth[auth.find(" "):auth.find("=")], auth[auth.find("=") + 1:auth.find(" f")]]
-
     result = session_requests.get(forum_url + 'index.php', cookies=result.cookies)
-
     soup = BeautifulSoup(result.text, "html.parser")
     tag = soup.find_all('strong')
-    print("歡迎登入 :", tag[0].text)
-    print("現在跳轉到 隨便一本小說頁面測試: ")
+    if (tag[0].text == "登錄"):
+        print("登入失敗")
+        sys.exit()
+    else:
+        print("歡迎登入 :", tag[0].text)
 
-    result = session_requests.get(forum_url + 'thread-11728982-1-BX4TQDHP.html', cookies=result.cookies)
-    
+    ##
+
+    return result.cookies
+
+
+def novel_all_page_Download(novel_name, novel_url_main, novel_max_page, res_cookies):
+    # session init
+    session_requests = requests.session()  # 建立requests連接
+    session_requests.headers = headers  # 初始化headers
+    # page變數管制
+    novel_url_main = novel_url_main.split("-1-")
+    page = 1
+    ##
+    print("小說: ", novel_name, "下載中...")
+
+    result = session_requests.get(forum_url + 'thread-11728982-1-BX4TQDHP.html', cookies=res_cookies)
+
     soup = BeautifulSoup(result.text, "html.parser")
     a_tags = soup.find_all('td', {"class": "t_f"})
-    for tag in a_tags:
-        print(tag.text)
-    return auth
+    print(a_tags[1].text)
+    for tags in a_tags:
+        with open('G:\我的云端硬盘\小說用\file.txt', 'a') as f:
+            page = str(tags.text)
+            page = page.replace(u'\xa0', u' ')
+            f.write(page)
 
 
-def login(authname, auth):
-    session_requests = requests.session()
-    print("送出錢", session_requests.headers)
-    result = session_requests.get(forum_url)
-    print("送出後", session_requests.cookies)
-    soup = BeautifulSoup(result.text, "html.parser")
-    a_tags = soup.find_all('font')
-    for tag in a_tags:
-        print(tag)
-
-
-def login22():
+def novel_page_get():
 
     html = urllib.request.urlopen(forum_url + "forum.php?gid=1747")
     soup = BeautifulSoup(html, "html.parser")
@@ -119,7 +140,10 @@ def login22():
             if taglist.get("class")[0] == "new":
                 # print(a_taglist[0])
                 novel.append([a_taglist[0].string, a_taglist[1].string, a_taglist[1].get('href')])
-
+    # 獲取最大maxpage
+    a_tags = soup.find_all('a', {"class": "last"})[0].text[4:]
+    print(a_tags)
+    ##
     for i in range(len(novel)):
         print(novel[i])
         # if (str(type(tag.a)) != "<class 'NoneType'>"):
@@ -129,5 +153,4 @@ def login22():
     soup = BeautifulSoup(html, "html.parser")
 
 
-get_auth()
-login22()
+novel_page_get()
