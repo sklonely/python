@@ -35,16 +35,17 @@ headers = {
     'Accept-Encoding': 'gzip, deflate',
     'Accept-Language': 'zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6',
     'Content-Type': 'application/x-www-form-urlencoded',
-    'Referer': 'http://www.eyny.com/member.php?mod=logging&action=login',
+    'Referer': 'http://www.eyny.com/',
     'Upgrade-Insecure-Requests': '1',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36'
 }
+auth_cookies = ''
 
 
-# 管制區結束
 # 登入論壇
 def get_auth():
     session_requests = requests.session()
+    # session_requests.headers = headers
     result = session_requests.get(forum_url + "member.php?mod=logging&action=login")
     tree = html.fromstring(result.text)
     # time.sleep(1)
@@ -64,9 +65,16 @@ def get_auth():
     result = session_requests.get(forum_url + 'index.php', cookies=result.cookies)
 
     soup = BeautifulSoup(result.text, "html.parser")
-    a_tags = soup.find_all('strong')
+    tag = soup.find_all('strong')
+    print("歡迎登入 :", tag[0].text)
+    print("現在跳轉到 隨便一本小說頁面測試: ")
+
+    result = session_requests.get(forum_url + 'thread-11728982-1-BX4TQDHP.html', cookies=result.cookies)
+    
+    soup = BeautifulSoup(result.text, "html.parser")
+    a_tags = soup.find_all('td', {"class": "t_f"})
     for tag in a_tags:
-        print(tag)
+        print(tag.text)
     return auth
 
 
@@ -119,7 +127,7 @@ def login22():
 
     html = urllib.request.urlopen(forum_url + novel[0][2])
     soup = BeautifulSoup(html, "html.parser")
-    print(html.cookies)
 
 
 get_auth()
+login22()
