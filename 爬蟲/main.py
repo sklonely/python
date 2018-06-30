@@ -32,7 +32,7 @@ username = ''
 password = ''
 ##
 forum_url = "http://www02.eyny.com/"  # 論壇網址
-novel_sort_name = []  # 小說分類 [["玄幻魔法小說", html], ..]
+novel_sort = []  # 小說分類 [["玄幻魔法小說", html], ..]
 novel_sort_maxpage = 0  # 小說
 novel = []
 headers = {
@@ -83,34 +83,34 @@ def get_auth():
     else:
         print("歡迎登入 :", tag[0].text)
 
-    ##
-
-    return result.cookies
+    return session_requests
 
 
-def novel_all_page_Download(novel_name, novel_url_main, novel_max_page, res_cookies):
+def novel_all_page_Download(novel, session_requests):
     # session init
-    session_requests = requests.session()  # 建立requests連接
-    session_requests.headers = headers  # 初始化headers
-    # page變數管制
-    novel_url_main = novel_url_main.split("-1-")
-    page = 1
-    ##
-    print("小說: ", novel_name, "下載中...")
+    result = session_requests.get(forum_url + 'thread-11728982-1-BX4TQDHP.html')
+    maxpage = 2  # soup.find_all('a', {"class": "last"})[0].text[4:]  # 最大頁數獲得
+    time.sleep(0.2)
 
-    result = session_requests.get(forum_url + 'thread-11728982-1-BX4TQDHP.html', cookies=res_cookies)
+    for i in range(int(maxpage)):
+        pages = i + 1
+        novel_sort_page_url = 'thread-11728982-' + str(pages) + '-BX4TQDHP.html'  # 合成網址
+        result = session_requests.get(forum_url + novel_sort_page_url)
+        # 當前頁面本文下載到txt
+        soup = BeautifulSoup(result.text, "html.parser")
+        a_tags = soup.find_all('td', {"class": "t_f"})
+        # print(a_tags[1].text)
+        for tags in a_tags:
+            with open('G:\我的云端硬盘\小說用\\wsw.txt', 'a') as f:
+                page = str(tags.text)
+                page = page.replace(u'\xa0', u' ')
+                page = page.replace(u'\u950f', u' ')
+                f.write(page)
+        print("下載完成:", pages, "頁")
+        time.sleep(0.2)
 
-    soup = BeautifulSoup(result.text, "html.parser")
-    a_tags = soup.find_all('td', {"class": "t_f"})
-    print(a_tags[1].text)
-    for tags in a_tags:
-        with open('G:\我的云端硬盘\小說用\file.txt', 'a') as f:
-            page = str(tags.text)
-            page = page.replace(u'\xa0', u' ')
-            f.write(page)
 
-
-def novel_page_get():
+def novel_sort_page_get():
 
     html = urllib.request.urlopen(forum_url + "forum.php?gid=1747")
     soup = BeautifulSoup(html, "html.parser")
@@ -123,16 +123,49 @@ def novel_page_get():
         for name in ["玄幻魔法小說", "武俠修真小說", "科幻偵探小說", "原創言情小說", "都市小說", "輕小說", "其他小說"]:
             if tag.string == name:
                 # print(tag.string, tag.a.get('href'))
-                novel_sort_name.append([tag.string, tag.a.get('href')])
-    print(novel_sort_name[0])
+                novel_sort.append([tag.string, tag.a.get('href')])
+    for a in novel_sort:
+        print(a)
 
+
+def a(novel_sort):
+    # 頁數網址處理
+    html = urllib.request.urlopen(forum_url + novel_sort[1])
+    soup = BeautifulSoup(html, "html.parser")
+    maxpage = 2  # soup.find_all('a', {"class": "last"})[0].text[4:]  # 最大頁數獲得
+    novel_sort = novel_sort[1].split("1.")  # 將原網址拆成 forum-xxx- + 頁碼. + html
+
+    for i in range(int(maxpage)):
+        page = i + 1
+        novel_sort_page_url = novel_sort[0] + str(page) + "." + novel_sort[1]  # 合成網址
+        # 小說版塊頁面下載
+        html = urllib.request.urlopen(forum_url + novel_sort_page_url)
+        soup = BeautifulSoup(html, "html.parser")
+        title_tag = soup.title
+        print("你正在: " + title_tag.string + " 頁面 " + str(page))
+        # 取得小說版塊所有小說名稱及網址
+        a_tags = soup.find_all('th')  # 獲取當前頁面所有帖子
+        for taglist in a_tags:  # 將公告去除
+            a_taglist = taglist.find_all('a', limit=2)
+            # 取得當前頁面上所有小說的 分類 名稱 連載狀況
+            if taglist.get("class") is not None:
+                if taglist.get("class")[0] == "new":
+                    # print(a_taglist[0])
+                    novel.append([a_taglist[0].string, a_taglist[1].string, a_taglist[1].get('href')])  # 儲存格式[類別, 名稱, 網址]
+        time.sleep(0.3)
+    for i in range(len(novel)):  # 將小說名稱 網址 打印出來
+        print(novel[i])
+        # if (str(type(tag.a)) != "<class 'NoneType'>"):
+        # print(tag.a.string)
+    """
     # 小說版塊頁面下載
-    html = urllib.request.urlopen(forum_url + novel_sort_name[0][1])
+    html = urllib.request.urlopen(forum_url + novel_sort[1])
     soup = BeautifulSoup(html, "html.parser")
     title_tag = soup.title
-    print("你正在: " + title_tag.string + "頁面")
+    print("你正在: " + title_tag.string + " 頁面 " + maxpage)
+    ##
+    # 取得小說版塊所有小說名稱及網址
     a_tags = soup.find_all('th')  # 獲取當前頁面所有帖子
-
     for taglist in a_tags:  # 將公告去除
         a_taglist = taglist.find_all('a', limit=2)
         # 取得當前頁面上所有小說的 分類 名稱 連載狀況
@@ -140,10 +173,7 @@ def novel_page_get():
             if taglist.get("class")[0] == "new":
                 # print(a_taglist[0])
                 novel.append([a_taglist[0].string, a_taglist[1].string, a_taglist[1].get('href')])
-    # 獲取最大maxpage
-    a_tags = soup.find_all('a', {"class": "last"})[0].text[4:]
-    print(a_tags)
-    ##
+
     for i in range(len(novel)):
         print(novel[i])
         # if (str(type(tag.a)) != "<class 'NoneType'>"):
@@ -151,6 +181,9 @@ def novel_page_get():
 
     html = urllib.request.urlopen(forum_url + novel[0][2])
     soup = BeautifulSoup(html, "html.parser")
+    """
 
 
-novel_page_get()
+novel_sort_page_get()
+a(novel_sort[0])
+# novel_all_page_Download(1, get_auth())
