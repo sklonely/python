@@ -7,7 +7,7 @@ x1 = [-0.72]
 x2 = [-0.64]
 
 e1 = []
-u = []
+uk = []
 
 A = -0.3
 a = 0.9
@@ -17,11 +17,11 @@ d = 0.5
 t = []
 for i in range(100):
     if (i > 50):
-        u.append(-((x1[i]**2) - (x2[i]**2) + a * (x1[i]) + b * (x2[i]) + A * x1[i]))
+        uk.append(-((x1[i]**2) - (x2[i]**2) + a * (x1[i]) + b * (x2[i]) + A * x1[i]))
     else:
-        u.append(0)
+        uk.append(0)
 
-    x1.append((x1[i]**2) - (x2[i]**2) + a * (x1[i]) + b * x2[i] + u[i])
+    x1.append((x1[i]**2) - (x2[i]**2) + a * (x1[i]) + b * x2[i] + uk[i])
     x2.append(2 * x1[i] * x2[i] + c * x1[i] + d * x2[i])
     t.append(i)
 
