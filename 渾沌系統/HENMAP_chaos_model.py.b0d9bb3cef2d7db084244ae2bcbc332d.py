@@ -92,7 +92,7 @@ class Chaos():
     def runSlave(self, k, x, Um):
         t = self.runChaos(k, x)
         if (k > 1):
-            t[0] = round(t[0] + self.createUs(x) + Um, 6)
+            t[0] =round(t[0] + self.createUs(x) + Um, 6)
         return t
 
     def createUk(self, X, Y):
