@@ -51,33 +51,37 @@ class Chaos():
         g = self.g
         h = self.h
         j = self.j
-
+        # 第一次先做 調變
         if k <= 1:
             x[0] = self.ax[0] * x[0] + self.dx[0]
             x[1] = self.ax[1] * x[1] + self.dx[1]
             x[2] = self.ax[2] * x[2] + self.dx[2]
-
+        # 混沌原式計算
         t.append(round(g[0] * (x[1] * x[1]) + g[1] * x[1] + g[2] * x[2] + g[3], 6))
         t.append(round(h[0] * x[0] + h[1], 6))
         t.append(round(j[0] * x[1] + j[1], 6))
 
         return t
 
+    # 跑主系統渾沌狀態
     def runMaster(self, k, x):
         return self.runChaos(k, x)
 
+    # 跑從系統渾沌狀態
     def runSlave(self, k, y, Um):
         t = self.runChaos(k, y)
         if (k > 1):
             t[0] = round(t[0] + self.createUs(y) + Um, 6)
         return t
 
+    # UK值
     def createUk(self, X, Y):
 
         self.Um = self.createUm(X)
         self.Us = self.createUs(Y)
         return self.Um + self.Us
 
+    # UM值
     def createUm(self, x):
         A = self.A
         c = self.c
@@ -88,6 +92,7 @@ class Chaos():
         Um = math.pow(x[1], 2) * g[0] + x[1] * g[1] + x[2] * g[2] + x[0] * c[0] * h[0] + x[1] * c[1] * j[0] - x[0] * A - x[1] * c[0] * A - x[2] * c[1] * A
         return Um
 
+    # US值
     def createUs(self, y):
         A = self.A
         c = self.c
@@ -98,6 +103,7 @@ class Chaos():
         Us = (-math.pow(y[1], 2) * g[0] - y[1] * g[1] - y[2] * g[2] - y[0] * c[0] * h[0] - y[1] * c[1] * j[0] + y[0] * A + y[1] * c[0] * A + y[2] * c[1] * A)
         return Us
 
+    # 觀看有沒有同步
     def checkSync(self, Us, Um):
         Um = round(Um, 4)
         Us = round(Us, 4)
@@ -109,6 +115,7 @@ class Chaos():
         else:
             return False
 
+    # debug用
     def show(self):
         print('A= ', self.A, '\nc= ', self.c, '\ng= ', self.g, '\nh= ', self.h, '\nj=', self.j)
         pass

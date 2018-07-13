@@ -7,16 +7,19 @@ class AEScharp():
     def __init__(self):
         pass
 
+    # 將資料補足16 bit
     def pad(self, text):
         while len(text) % 16 != 0:
             text += b' '
         return text
 
+    # 將key補足32 bit
     def pad_key(self, key):
         while len(key) % 32 != 0:
             key += b' '
         return key
 
+    # 加密
     def encrypt(self, data, key):
         # 處理密鑰
         key = str(key)
@@ -28,6 +31,7 @@ class AEScharp():
         # 加密資料
         return aes.encrypt(data)
 
+    # 解密
     def decrypt(self, data, key):
         # 處理密鑰
         key = str(key)

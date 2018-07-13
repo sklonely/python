@@ -42,7 +42,6 @@ for j in range(tryy):
         Um = a.createUm(X)
         X = a.runMaster(i, X)
         sendData = aes.encrypt(impData, X[0])
-
         Us = b.createUs(Y)
         Y = b.runSlave(i, Y, Um)
         getData = aes.decrypt(sendData, Y[0])
