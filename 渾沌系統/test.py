@@ -2,8 +2,6 @@ from HENMAP_chaos_model import Chaos
 from env import AEScharp
 import random
 X = [-1.3156345, -1.84, 0.5624]
-Y = [random.random(), random.random(), random.random()]
-print(Y)
 aes = AEScharp()
 
 Um = 0
@@ -30,19 +28,31 @@ def show_data(X, Y, Um, Us, UK, sendData, getData):
         print("======同步完成======")
         print("密文:  ", sendData)
         print("解密文:  ", getData)
+        return True
     print("----------------------------------------------")
 
 
-for i in range(15):
-    UK = a.createUk(X, Y)
-    Um = a.createUm(X)
-    X = a.runMaster(i, X)
-    sendData = aes.encrypt(impData, X[0])
+tryy = 5000
+times = 0
+MaxTimes = 0
+for j in range(tryy):
+    Y = [random.random(), random.random(), random.random()]
+    for i in range(100):
+        UK = a.createUk(X, Y)
+        Um = a.createUm(X)
+        X = a.runMaster(i, X)
+        sendData = aes.encrypt(impData, X[0])
 
-    Us = b.createUs(Y)
-    Y = b.runSlave(i, Y, Um)
-    getData = aes.decrypt(sendData, Y[0])
-    # show data
-    show_data(X, Y, Um, Us, UK, sendData, getData)
+        Us = b.createUs(Y)
+        Y = b.runSlave(i, Y, Um)
+        getData = aes.decrypt(sendData, Y[0])
+        # show data
+        if (show_data(X, Y, Um, Us, UK, sendData, getData)):
+            print("----------------------------------------------")
+            print("同步所需次數", i + 1)
+            if (MaxTimes < i):
+                MaxTimes = i
+            times += (i + 1)
+            break
+print("平均同步次數:", times / tryy, "最大次數:", MaxTimes)
 # a.show()
-

@@ -3,7 +3,7 @@ import math
 
 class Chaos():
 
-    def __init__(self, A=0.001, c=[-0.1, 0.02]):
+    def __init__(self, A=0.00001, c=[-0.0001, 0.0001]):
 
         # 初始化變數type設定 全部都是 list
         self.ax = [1, 1, 1]

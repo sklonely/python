@@ -42,37 +42,38 @@ def AES_encrypt(data="你好世界"):
 
 
 @app.route("/decrypt")
-def decrypt():
+def decrypt(data='8', Um=0):
     # 同步key值
     temp_X = sy
     temp_Um = ss
     Y = [random.random(), random.random(), random.random()]
     client = Chaos()
-    time.sleep(2)
-    for i in range(9, -1, -1):
+    for i in range(15, -1, -1):
         Y = client.runSlave(2, Y, temp_Um[i])
-        UK = client.createUk(temp_X, Y)
-
-    print(temp_X[0], Y[0], UK)
+    if temp_X[0] - Y[0]:
+        print(X[0], Y[0])
+        t = False
+    else:
+        t = True
     # 解密
     aes = AEScharp()
     getData = aes.decrypt(testEN, Y[0])
-    return str(getData)
+    return str(getData), t
 
 
 def chaos():
-    # 初始化
+    # 初始化 準備Um buff
     sys_chaos = Chaos()
     global X, Um
     X = [-1.3156345, -1.84, 0.5624]
     Um = []
-    for i in range(10):
+    for i in range(16):
         Um.append(0)
     Um[0] = sys_chaos.createUm(X)
     X = sys_chaos.runMaster(0, X)
     # 進入迴圈開始跑渾沌
     while 1:
-        for i in range(9, 0, -1):
+        for i in range(15, 0, -1):
             Um[i] = Um[i - 1]
         Um[0] = sys_chaos.createUm(X)
         X = sys_chaos.runMaster(1, X)
@@ -87,10 +88,17 @@ if __name__ == "__main__":
         sys_chaos.start()
         # 測試寒士
         time.sleep(2)
-        for i in range(10):
+        times = 1000
+        x = 0
+        for i in range(times):
             AES_encrypt()
-            time.sleep(1)
-            decrypt()
+            time.sleep(.1)
+            if (decrypt()[1]):
+                x += 1
+                print(i)
+            else:
+                print("error", i)
+        print("成功:", x, "失敗:", times - x, "同步率:", (x / times) * 100, "%")
 
         # app.run()
     except 1:
