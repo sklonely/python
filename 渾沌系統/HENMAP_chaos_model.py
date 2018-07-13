@@ -66,10 +66,10 @@ class Chaos():
     def runMaster(self, k, x):
         return self.runChaos(k, x)
 
-    def runSlave(self, k, x, Um):
-        t = self.runChaos(k, x)
+    def runSlave(self, k, y, Um):
+        t = self.runChaos(k, y)
         if (k > 1):
-            t[0] = round(t[0] + self.createUs(x) + Um, 6)
+            t[0] = round(t[0] + self.createUs(y) + Um, 6)
         return t
 
     def createUk(self, X, Y):

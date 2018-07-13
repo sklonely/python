@@ -1,7 +1,9 @@
 from HENMAP_chaos_model import Chaos
 from env import AEScharp
+import random
 X = [-1.3156345, -1.84, 0.5624]
-Y = [1.7, -1.2, 1.212345]
+Y = [random.random(), random.random(), random.random()]
+print(Y)
 aes = AEScharp()
 
 Um = 0
@@ -43,3 +45,4 @@ for i in range(15):
     # show data
     show_data(X, Y, Um, Us, UK, sendData, getData)
 # a.show()
+
