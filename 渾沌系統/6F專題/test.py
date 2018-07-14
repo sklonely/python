@@ -1,5 +1,8 @@
-from HENMAP_chaos_model import Chaos
+import sys
+import os
+sys.path.append(sys.path[0] + '/mods/')  # 將自己mods的路徑加入倒python lib裡面
 from env import AEScharp
+from HENMAP_chaos_model import Chaos
 import random
 X = [-1.3156345, -1.84, 0.5624]
 aes = AEScharp()
@@ -32,7 +35,7 @@ def show_data(X, Y, Um, Us, UK, sendData, getData):
     print("----------------------------------------------")
 
 
-tryy = 5000
+tryy = 500
 times = 0
 MaxTimes = 0
 for j in range(tryy):
