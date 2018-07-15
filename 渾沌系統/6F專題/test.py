@@ -19,8 +19,8 @@ errorCount = 0
 succsCount = 0
 syncCount = 0
 
-a = Chaos()
-b = Chaos()
+a = Chaos(A=0.00001, c=[-0.0001, 0.0001])
+b = Chaos(A=0.00001, c=[-0.0001, 0.0001])
 
 
 def show_data(X, Y, Um, Us, UK, sendData, getData):
@@ -35,7 +35,7 @@ def show_data(X, Y, Um, Us, UK, sendData, getData):
     print("----------------------------------------------")
 
 
-tryy = 500
+tryy = 3
 times = 0
 MaxTimes = 0
 for j in range(tryy):
@@ -52,7 +52,7 @@ for j in range(tryy):
         if (show_data(X, Y, Um, Us, UK, sendData, getData)):
             print("----------------------------------------------")
             print("同步所需次數", i + 1)
-            if (MaxTimes < i):
+            if (MaxTimes <= i):
                 MaxTimes = i
             times += (i + 1)
             break

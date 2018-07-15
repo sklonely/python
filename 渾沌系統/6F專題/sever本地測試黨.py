@@ -46,40 +46,39 @@ def encrypt():
 
 
 @app.route("/AES_encrypt", methods=['POST'])
-def AES_encrypt(data="你好世界"):
-    # 初始化加密資料
+def AES_encrypt(data="你hgjgggghh好世界"):
+    # 加密資料
+    global sy, ss
     temp_Um = copy.deepcopy(Um)
     key = copy.deepcopy(X[0])
+    sy = key
+    ss = temp_Um
     aes = AEScharp()
     try:
         data = request.form['data']
     except:
         pass
-    # 加密資料
     sendData = aes.encrypt(data, key)
     global testEN
     testEN = sendData
     # json 黨製作
-    sendData = {'encrypt_text:': str(sendData), 'Um:': str(temp_Um)}
+    sendData = {'密文:': str(sendData), 'Um:': str(temp_Um)}
     return json.dumps(sendData)
 
 
 @app.route("/AES_decrypt")
-def decrypt():
-    # 初始化解碼資料
-    try:
-        data = request.form['data']
-        temp_Um = request.form['Um']  # 需替換
-    except:
-        pass
+def decrypt(data='8', Um=0):
+    # 同步key值
+    temp_X = sy  # 需替換
+    temp_Um = ss  # 需替換
     # 開始同步
-    async_flag = False  # 同步旗標
-    times = 0  # 同步失敗次數
+    async_flag = False
+    times = 0
     while async_flag is False:
 
         Y = [random.random(), random.random(), random.random()]
         client = Chaos()
-        chck = 0
+        chck = 0.99
         for i in range(5, -1, -1):
             Y = client.runSlave(2, Y, temp_Um[i])
             if i == 1:
@@ -98,7 +97,7 @@ def decrypt():
 
     # 解密
     aes = AEScharp()
-    getData = aes.decrypt(data, Y[0])
+    getData = aes.decrypt(testEN, Y[0])
     print(str(getData))
     return str(getData), async_flag
 
@@ -145,8 +144,8 @@ if __name__ == "__main__":
         sys_chaos.setDaemon(True)
         sys_chaos.start()
         print("SYS_Chaos 初始化完成 進入本機伺服器...")
-        # show()
+        show()
         # AES_encrypt()
-        app.run()
+        # app.run()
     except 1:
         print("退出渾沌加密系統")
