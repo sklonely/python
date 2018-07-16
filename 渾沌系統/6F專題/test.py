@@ -1,7 +1,7 @@
 import sys
 import os
 sys.path.append(sys.path[0] + '/mods/')  # 將自己mods的路徑加入倒python lib裡面
-from env import AEScharp
+from AESmod import AEScharp
 from HENMAP_chaos_model import Chaos
 import random
 X = [-1.3156345, -1.84, 0.5624]
@@ -23,7 +23,7 @@ a = Chaos(A=0.00001, c=[-0.0001, 0.0001])
 b = Chaos(A=0.00001, c=[-0.0001, 0.0001])
 
 
-def show_data(X, Y, Um, Us, UK, sendData, getData):
+def show_data(X, Y, Um, Us, UK, sendData, getData, j):
     print("Um:", round(Um, 4), "Us:", round(Us, 4), "Uk:", round(UK, 4))
     print("X[" + str(i + 1) + "]", X[0])
     print("Y[" + str(i + 1) + "]", Y[0])
@@ -32,10 +32,10 @@ def show_data(X, Y, Um, Us, UK, sendData, getData):
         print("密文:  ", sendData)
         print("解密文:  ", getData)
         return True
-    print("----------------------------------------------")
+    print("----------------", j, "----------------")
 
 
-tryy = 3
+tryy = 100000
 times = 0
 MaxTimes = 0
 for j in range(tryy):
@@ -49,7 +49,7 @@ for j in range(tryy):
         Y = b.runSlave(i, Y, Um)
         getData = aes.decrypt(sendData, Y[0])
         # show data
-        if (show_data(X, Y, Um, Us, UK, sendData, getData)):
+        if (show_data(X, Y, Um, Us, UK, sendData, getData, j)):
             print("----------------------------------------------")
             print("同步所需次數", i + 1)
             if (MaxTimes <= i):
