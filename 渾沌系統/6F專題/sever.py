@@ -60,18 +60,29 @@ def AES_encrypt(data="你好世界"):
     global testEN
     testEN = sendData
     # json 黨製作
-    sendData = {'encrypt_text:': str(sendData), 'Um:': str(temp_Um)}
+    sendData = {'encrypt_text': str(sendData), 'Um': str(temp_Um)}
     return json.dumps(sendData)
 
 
-@app.route("/AES_decrypt")
+@app.route("/AES_decrypt", methods=['POST'])
 def decrypt():
     # 初始化解碼資料
     try:
         data = request.form['data']
-        temp_Um = request.form['Um']  # 需替換
+        data = eval(data)
+        print("data轉換完成")
+        temp_Um = request.form['Um']
+        temp_Um = temp_Um[1:-1].split(", ")
+        for i in range(len(temp_Um)):
+            temp_Um[i] = float(temp_Um[i])
+        print(data, temp_Um)
     except:
+        print("GG")
+        print(type(data))
+        print(data)
+        return "GG"
         pass
+    print(len(data))
     # 開始同步
     async_flag = False  # 同步旗標
     times = 0  # 同步失敗次數
@@ -99,7 +110,8 @@ def decrypt():
     # 解密
     aes = AEScharp()
     getData = aes.decrypt(data, Y[0])
-    print(str(getData))
+    # json 檔製作
+    getData = {'decrypt_text': str(getData), 'flag': str(async_flag)}
     return str(getData), async_flag
 
 

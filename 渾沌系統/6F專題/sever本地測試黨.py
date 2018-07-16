@@ -46,7 +46,7 @@ def encrypt():
 
 
 @app.route("/AES_encrypt", methods=['POST'])
-def AES_encrypt(data="你hgjgggghh好世界"):
+def AES_encrypt(data="我愛pyton"):
     # 加密資料
     global sy, ss
     temp_Um = copy.deepcopy(Um)
@@ -61,7 +61,12 @@ def AES_encrypt(data="你hgjgggghh好世界"):
     sendData = aes.encrypt(data, key)
     global testEN
     testEN = sendData
+    for i in sendData:
+        print(i)
+    print(sendData)
     # json 黨製作
+    print(type(sendData))
+    #print(int(sendData, 16))
     sendData = {'密文:': str(sendData), 'Um:': str(temp_Um)}
     return json.dumps(sendData)
 
