@@ -112,7 +112,7 @@ def decrypt():
     getData = aes.decrypt(data, Y[0])
     # json 檔製作
     getData = {'decrypt_text': str(getData), 'flag': str(async_flag)}
-    return str(getData), async_flag
+    return json.dumps(getData)
 
 
 def chaos():
