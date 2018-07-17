@@ -1,3 +1,5 @@
+# 渾沌加密外掛程式(免key的版本
+# by sklonely
 # import自動修復 程式碼片段Stste
 lestModName = ""
 while 1:
