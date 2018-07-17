@@ -46,7 +46,7 @@ def encrypt():
 
 
 @app.route("/AES_encrypt", methods=['POST'])
-def AES_encrypt(data="你好世界"):
+def AES_encrypt(data="這是測試用的訊息"):
     # 初始化加密資料
     temp_Um = copy.deepcopy(Um)
     key = copy.deepcopy(X[0])
