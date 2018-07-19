@@ -1,10 +1,16 @@
 import requests
-
-r = requests.post('http://127.0.0.1:5000/AES_encrypt', data={'data': '我愛python'})
-r = r.json()
-print(r["encrypt_text"])
-print(r["Um"][0])
-
-data = (("data", r["encrypt_text"]), ("Um", r["Um"]))
-r = requests.post('http://127.0.0.1:5000/AES_decrypt', data=data)
-print(r.json())
+import time
+times = 0
+for i in range(100):
+    s = time.time()
+    text = "~!@#$%^&*()RRRRRRRRRRRRRRR我不信邪RRRRRRRRRRRRRRRR)(*&^%$#@!~"
+    r = requests.post('http://127.0.0.1:5000/AES_encrypt', data={'data': text})
+    r = r.json()
+    print(r["encrypt_text"])
+    print(r["Um"][0])
+    data = (("data", r["encrypt_text"]), ("Um", r["Um"]))
+    r = requests.post('http://127.0.0.1:5000/AES_decrypt', data=data)
+    print(r.json()['decrypt_text'])
+    e = time.time()
+    times += e - s
+print(times / 100)

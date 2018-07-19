@@ -23,6 +23,11 @@ class Chaos():
         self.ax = ax
         self.dx = dx
         # 重新計算 G H J 值
+        del self.g, self.h, self.j
+        self.g = []
+        self.h = []
+        self.j = []
+        # print("hi")
         self.runModulation()
 
     def runModulation(self):
@@ -44,6 +49,9 @@ class Chaos():
         # j 值計算
         self.j.append(ax[2] / ax[1])
         self.j.append(-(ax[2] * dx[1]) / ax[1] + dx[2])
+
+        # debug
+        # print(self.g, self.h, self.j)
 
     def runChaos(self, k, x):
         # 參數站存
