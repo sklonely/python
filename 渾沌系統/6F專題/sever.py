@@ -56,6 +56,11 @@ def AES_encrypt(data="這是測試用的訊息"):
     aes = AEScharp()
     try:
         data = request.form['data']
+        use_key = hashlib.sha256(request.form['key'].encode('utf-8')).digest()
+        use_key = list(use_key)
+        for i in range(32):
+            temp_Um[i] = temp_Um[i] + use_key[i]
+        print(temp_Um)
     except:
         pass
     # 加密資料
@@ -79,14 +84,19 @@ def decrypt():
         # print("data轉換完成")
         temp_Um = request.form['Um']
         temp_Um = temp_Um[1:-1].split(", ")
+        use_key = hashlib.sha256(request.form['key'].encode('utf-8')).digest()
+        use_key = list(use_key)
+        print(use_key)
         for i in range(len(temp_Um)):
+            use_key[i] = float(use_key[i])
             temp_Um[i] = float(temp_Um[i])
-        # print(data, temp_Um)
+            temp_Um[i] -= use_key[i]
+        print(temp_Um)
     except:
         # print("GG")
         # print(type(data))
         # print(data)
-        return "GG"
+        print("has error")
         pass
     # print(len(data))
     # 開始同步
@@ -129,13 +139,13 @@ def chaos():
     global X, Um
     X = [random.random(), random.random(), random.random()]
     Um = []
-    for i in range(50):
+    for i in range(32):
         Um.append(0)
     Um[0] = sys_chaos.createUm(X)
     X = sys_chaos.runMaster(0, X)
     # 進入迴圈開始跑渾沌
     while 1:
-        for i in range(49, 0, -1):
+        for i in range(31, 0, -1):
             Um[i] = Um[i - 1]
         Um[0] = sys_chaos.createUm(X)
         X = sys_chaos.runMaster(1, X)
