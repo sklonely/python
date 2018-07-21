@@ -9,6 +9,7 @@ while 1:
         sys.path.append(sys.path[0] + '/mods/')  # 將自己mods的路徑加入倒python lib裡面
         # 要import的東西放這下面
         from flask import Flask, jsonify, request
+        from flask_cors import CORS
         from HENMAP_chaos_model import Chaos
         from AESmod import AEScharp
         import random
@@ -32,6 +33,7 @@ while 1:
 # import自動修復 程式碼片段
 app = Flask(__name__)
 # 變數
+CORS(app)
 
 
 @app.route("/")
@@ -55,12 +57,13 @@ def AES_encrypt(data="這是測試用的訊息"):
     key = copy.deepcopy(X[0])
     aes = AEScharp()
     try:
-        data = request.form['data']
-        use_key = hashlib.sha256(request.form['key'].encode('utf-8')).digest()
+        dict1 = json.loads(request.get_data())
+        data = dict1['data']
+        use_key = hashlib.sha256(dict1['key'].encode('utf-8')).digest()
         use_key = list(use_key)
         for i in range(32):
             temp_Um[i] = temp_Um[i] + use_key[i]
-        print(temp_Um)
+        # print(temp_Um)
     except:
         pass
     # 加密資料
@@ -79,19 +82,20 @@ def decrypt():
     # 初始化解碼資料
     s = time.time()
     try:
-        data = request.form['data']
+        dict1 = json.loads(request.get_data())
+        data = dict1['data']
         data = eval(data)
-        # print("data轉換完成")
-        temp_Um = request.form['Um']
+        # print(data)
+        temp_Um = dict1['Um']
         temp_Um = temp_Um[1:-1].split(", ")
-        use_key = hashlib.sha256(request.form['key'].encode('utf-8')).digest()
+        use_key = hashlib.sha256(dict1['key'].encode('utf-8')).digest()
         use_key = list(use_key)
-        print(use_key)
+        # print(use_key)
         for i in range(len(temp_Um)):
             use_key[i] = float(use_key[i])
             temp_Um[i] = float(temp_Um[i])
             temp_Um[i] -= use_key[i]
-        print(temp_Um)
+        # print(dict1['key'], dict1['data'], dict1['Um'])
     except:
         # print("GG")
         # print(type(data))
@@ -113,12 +117,13 @@ def decrypt():
                 chck = client.createUs(Y)
 
         # 判斷有沒有同步
-        if temp_Um[0] + chck:
+        if round(temp_Um[0] + chck, 6):
             # print(temp_X, Y[0], client.createUs(Y), temp_Um[0] + chck)
             async_flag = False
             if times > 12:
                 break
             times += 1
+            print(round(temp_Um[0] + chck, 6))
 
         else:
             async_flag = True
@@ -177,6 +182,6 @@ if __name__ == "__main__":
         print("SYS_Chaos 初始化完成 進入本機伺服器...")
         # show()
         # AES_encrypt()
-        app.run()
+        app.run("192.168.0.4")
     except:
         print("退出渾沌加密系統")
