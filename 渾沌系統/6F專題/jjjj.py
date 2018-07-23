@@ -3,7 +3,7 @@ import time
 times = 0
 for i in range(1):
     s = time.time()
-    text = "~!@#$%^&*()RRRRRRRRRRRRRRR我不信邪RRRRRRRRRRRRRRRR)(*&^%$#@!~"
+    text = "~!@#$%^&*()RRRRRRRRRRRRRRR我不信邪RRRRRRRRRRRRRRR)(*&^%$#@!~"
     r = requests.post('http://127.0.0.1:5000/AES_encrypt', data={'key': "123", 'data': text})
     r = r.json()
 
