@@ -128,7 +128,7 @@ def novel_sort_page_get():
         print(a)
 
 
-def a(novel_sort):
+def novel_sort_data_get(novel_sort):
     # 頁數網址處理
     html = urllib.request.urlopen(forum_url + novel_sort[1])
     soup = BeautifulSoup(html, "html.parser")
@@ -150,7 +150,7 @@ def a(novel_sort):
             # 取得當前頁面上所有小說的 分類 名稱 連載狀況
             if taglist.get("class") is not None:
                 if taglist.get("class")[0] == "new":
-                    # print(a_taglist[0])
+                    print(a_taglist[0])
                     novel.append([a_taglist[0].string, a_taglist[1].string, a_taglist[1].get('href')])  # 儲存格式[類別, 名稱, 網址]
         time.sleep(0.3)
     for i in range(len(novel)):  # 將小說名稱 網址 打印出來
@@ -185,5 +185,5 @@ def a(novel_sort):
 
 
 novel_sort_page_get()
-a(novel_sort[0])
+novel_sort_data_get(novel_sort[0])
 # novel_all_page_Download(1, get_auth())
