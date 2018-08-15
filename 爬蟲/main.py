@@ -132,27 +132,51 @@ def novel_sort_data_get(novel_sort):
     # 頁數網址處理
     html = urllib.request.urlopen(forum_url + novel_sort[1])
     soup = BeautifulSoup(html, "html.parser")
-    maxpage = 2  # soup.find_all('a', {"class": "last"})[0].text[4:]  # 最大頁數獲得
-    novel_sort = novel_sort[1].split("1.")  # 將原網址拆成 forum-xxx- + 頁碼. + html
+    maxpage = soup.find_all('a', {"class": "last"})[0].text[4:]  # 最大頁數獲得
 
-    for i in range(int(maxpage)):
+    # 第一次近來小說網頁
+    title_tag = soup.title
+    print("你正在: " + title_tag.string + " 頁面  1/" + maxpage)
+    # 取得小說版塊所有小說名稱及網址
+    a_tags = soup.find_all('th')  # 獲取當前頁面所有帖子
+    for taglist in a_tags:  # 將公告去除
+        a_taglist = taglist.find_all('a', limit=2)
+        # 取得當前頁面上所有小說的 分類 名稱 連載狀況
+        if taglist.get("class") is not None:
+            if taglist.get("class")[0] == "new":
+                novel.append([a_taglist[0].string, a_taglist[1].string, a_taglist[1].get('href')])  # 儲存格式[類別, 名稱, 網址]
+    a_tags = soup.find_all('div')
+    for taglist in a_tags:
+        if taglist.get("class") is not None:
+            if taglist.get("class")[0] == "pg":
+                novel_sort[1] = taglist.find_all('a')[-1].get("href")
+                break
+    # 第二次以上
+    for i in range(1, maxpage):
         page = i + 1
-        novel_sort_page_url = novel_sort[0] + str(page) + "." + novel_sort[1]  # 合成網址
         # 小說版塊頁面下載
-        html = urllib.request.urlopen(forum_url + novel_sort_page_url)
+        # print(novel_sort_page_url)
+        html = urllib.request.urlopen(forum_url + novel_sort[1])
         soup = BeautifulSoup(html, "html.parser")
         title_tag = soup.title
-        print("你正在: " + title_tag.string + " 頁面 " + str(page))
+        print("正在收集小說資料... 頁面: " + title_tag.string + " 頁面 " + str(page) + "/" + maxpage)
         # 取得小說版塊所有小說名稱及網址
         a_tags = soup.find_all('th')  # 獲取當前頁面所有帖子
         for taglist in a_tags:  # 將公告去除
             a_taglist = taglist.find_all('a', limit=2)
             # 取得當前頁面上所有小說的 分類 名稱 連載狀況
             if taglist.get("class") is not None:
-                if taglist.get("class")[0] == "new":
-                    print(a_taglist[0])
+                # print(a_taglist)
+                if a_taglist[0].string != "公告":
                     novel.append([a_taglist[0].string, a_taglist[1].string, a_taglist[1].get('href')])  # 儲存格式[類別, 名稱, 網址]
+        a_tags = soup.find_all('div')
+        for taglist in a_tags:
+            if taglist.get("class") is not None:
+                if taglist.get("class")[0] == "pg":
+                    novel_sort[1] = taglist.find_all('a')[-1].get("href")
+                    break
         time.sleep(0.3)
+
     for i in range(len(novel)):  # 將小說名稱 網址 打印出來
         print(novel[i])
         # if (str(type(tag.a)) != "<class 'NoneType'>"):

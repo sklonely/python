@@ -41,3 +41,10 @@ auth =[]
         #print(authlist[i])
         auth.append(x[x.find(" ") + 1:x.find(" f")])
     print(auth)
+
+# 取下一夜
+a_tags = soup.find_all('div')
+        for taglist in a_tags:
+            if taglist.get("class") is not None:
+                if taglist.get("class")[0] == "pg":
+                    print(taglist.find_all('a')[-1])
