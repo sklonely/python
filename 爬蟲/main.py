@@ -152,7 +152,7 @@ def novel_sort_data_get(novel_sort):
                 novel_sort[1] = taglist.find_all('a')[-1].get("href")
                 break
     # 第二次以上
-    for i in range(1, maxpage):
+    for i in range(1, int(maxpage)):
         page = i + 1
         # 小說版塊頁面下載
         # print(novel_sort_page_url)
@@ -177,10 +177,13 @@ def novel_sort_data_get(novel_sort):
                     break
         time.sleep(0.3)
 
-    for i in range(len(novel)):  # 將小說名稱 網址 打印出來
-        print(novel[i])
-        # if (str(type(tag.a)) != "<class 'NoneType'>"):
-        # print(tag.a.string)
+    with open('G:/我的雲端硬碟/小說用/' + novel_sort[0] + '目錄.txt', 'w+', encoding='UTF-8') as f:
+        f.write(novel_sort[0] + "所有小說目錄:\n=========================================================================\n")
+        for i in range(len(novel)):  # 將小說名稱 網址 打印出來
+            f.write(novel[i][0] + ",")
+            f.write(novel[i][1] + ",")
+            f.write(novel[i][2] + "\n")
+            print(novel[i])
     """
     # 小說版塊頁面下載
     html = urllib.request.urlopen(forum_url + novel_sort[1])
@@ -209,5 +212,9 @@ def novel_sort_data_get(novel_sort):
 
 
 novel_sort_page_get()
-novel_sort_data_get(novel_sort[0])
+for i in novel_sort:
+    if i[0] != "玄幻魔法小說":
+        novel_sort_data_get(i)
+    time.sleep(10)
+
 # novel_all_page_Download(1, get_auth())
