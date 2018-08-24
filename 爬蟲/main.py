@@ -34,7 +34,8 @@ password = ''
 forum_url = "http://www02.eyny.com/"  # 論壇網址
 novel_sort = []  # 小說分類 [["玄幻魔法小說", html], ..]
 novel_sort_maxpage = 0  # 小說
-novel = []
+novel = []  # 小說分類 ["小說分類","小說名稱","小說網址"]
+
 headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
     'Accept-Encoding': 'gzip, deflate',
@@ -63,7 +64,7 @@ def get_auth():
     ##
 
     # 創建POST 用的data from
-    payload = {'formhash': from_hahs, 'referer': 'http://www.eyny.com/index.php', 'loginfield': 'username', 'username': 'asd1953721', 'password': 'asd195375', 'questionid': '0', 'answer': '', 'cookietime': '2592000'}
+    payload = {'formhash': from_hahs, 'referer': 'http://www.eyny.com/index.php', 'loginfield': 'username', 'username': username, 'password': password, 'questionid': '0', 'answer': '', 'cookietime': '2592000'}
     ##
 
     # 發送POST請求 取得auth cookies
@@ -88,25 +89,32 @@ def get_auth():
 
 def novel_all_page_Download(novel, session_requests):
     # session init
-    result = session_requests.get(forum_url + 'thread-11728982-1-BX4TQDHP.html')
-    maxpage = 2  # soup.find_all('a', {"class": "last"})[0].text[4:]  # 最大頁數獲得
-    time.sleep(0.2)
+    result = session_requests.get(forum_url + novel[2])
+    soup = BeautifulSoup(result.text, "html.parser")
+    if soup.find_all('a', {"class": "last"}):
+        maxpage = soup.find_all('a', {"class": "last"})[0].text[4:]
+        url = novel[2].split('-1-')
+        print(url)
+    else:
+        url = novel[2]
+        maxpage = 1
 
+    maxpage = 10  # debug
+    time.sleep(0.2)
+    # 開始下載小說
     for i in range(int(maxpage)):
         pages = i + 1
-        novel_sort_page_url = 'thread-11728982-' + str(pages) + '-BX4TQDHP.html'  # 合成網址
+        novel_sort_page_url = url[0] + '-' + str(pages) + '-' + url[1]  # 合成網址
         result = session_requests.get(forum_url + novel_sort_page_url)
         # 當前頁面本文下載到txt
         soup = BeautifulSoup(result.text, "html.parser")
         a_tags = soup.find_all('td', {"class": "t_f"})
-        # print(a_tags[1].text)
+        # 將本文存入檔案
         for tags in a_tags:
-            with open('G:\我的云端硬盘\小說用\\wsw.txt', 'a') as f:
+            with open('G:\我的云端硬盘\小說用\玄幻魔法小說\\' + novel[1] + '.txt', 'a', encoding='UTF-8') as f:
                 page = str(tags.text)
-                page = page.replace(u'\xa0', u' ')
-                page = page.replace(u'\u950f', u' ')
                 f.write(page)
-        print("下載完成:", pages, "頁")
+        print("正在下載:", novel[1], pages, "/", str(maxpage), "頁")
         time.sleep(0.2)
 
 
@@ -133,10 +141,10 @@ def novel_sort_data_get(novel_sort):
     html = urllib.request.urlopen(forum_url + novel_sort[1])
     soup = BeautifulSoup(html, "html.parser")
     maxpage = soup.find_all('a', {"class": "last"})[0].text[4:]  # 最大頁數獲得
-
+    # maxpage = 1
     # 第一次近來小說網頁
     title_tag = soup.title
-    print("你正在: " + title_tag.string + " 頁面  1/" + maxpage)
+    print("你正在: " + title_tag.string + " 頁面  1/" + str(maxpage))
     # 取得小說版塊所有小說名稱及網址
     a_tags = soup.find_all('th')  # 獲取當前頁面所有帖子
     for taglist in a_tags:  # 將公告去除
@@ -177,44 +185,61 @@ def novel_sort_data_get(novel_sort):
                     break
         time.sleep(0.3)
 
-    with open('G:/我的雲端硬碟/小說用/' + novel_sort[0] + '目錄.txt', 'w+', encoding='UTF-8') as f:
-        f.write(novel_sort[0] + "所有小說目錄:\n=========================================================================\n")
-        for i in range(len(novel)):  # 將小說名稱 網址 打印出來
-            f.write(novel[i][0] + ",")
-            f.write(novel[i][1] + ",")
-            f.write(novel[i][2] + "\n")
-            print(novel[i])
-    """
-    # 小說版塊頁面下載
-    html = urllib.request.urlopen(forum_url + novel_sort[1])
-    soup = BeautifulSoup(html, "html.parser")
-    title_tag = soup.title
-    print("你正在: " + title_tag.string + " 頁面 " + maxpage)
-    ##
-    # 取得小說版塊所有小說名稱及網址
-    a_tags = soup.find_all('th')  # 獲取當前頁面所有帖子
-    for taglist in a_tags:  # 將公告去除
-        a_taglist = taglist.find_all('a', limit=2)
-        # 取得當前頁面上所有小說的 分類 名稱 連載狀況
-        if taglist.get("class") is not None:
-            if taglist.get("class")[0] == "new":
-                # print(a_taglist[0])
-                novel.append([a_taglist[0].string, a_taglist[1].string, a_taglist[1].get('href')])
-
-    for i in range(len(novel)):
-        print(novel[i])
-        # if (str(type(tag.a)) != "<class 'NoneType'>"):
-        # print(tag.a.string)
-
-    html = urllib.request.urlopen(forum_url + novel[0][2])
-    soup = BeautifulSoup(html, "html.parser")
-    """
+    # 將結果存入txt檔中 檔案名稱[(小說類別)目錄.txt] 內容格式: [分類][小說][網址]
+    try:
+        with open('G:/我的雲端硬碟/小說用/' + novel_sort[0] + '目錄.txt', 'w+', encoding='UTF-8') as f:
+            f.write(novel_sort[0] + "所有小說目錄:\n=========================================================================\n")
+            for i in range(len(novel)):  # 將小說名稱 網址 打印出來
+                f.write(novel[i][0] + ",")
+                f.write(novel[i][1] + ",")
+                f.write(novel[i][2] + "\n")
+                print(novel[i])
+    except FileNotFoundError:
+        with open('G:/我的云端硬盘/小說用/' + novel_sort[0] + '目錄.txt', 'w+', encoding='UTF-8') as f:
+            f.write(novel_sort[0] + "所有小說目錄:\n=========================================================================\n")
+            for i in range(len(novel)):  # 將小說名稱 網址 打印出來
+                f.write(novel[i][0] + ",")
+                f.write(novel[i][1] + ",")
+                f.write(novel[i][2] + "\n")
+                print(novel[i])
 
 
-novel_sort_page_get()
-for i in novel_sort:
-    if i[0] != "玄幻魔法小說":
+# get_auth()
+def one_novel_download(novelnaem):
+    novel = search_local("放開那個女巫")
+    get_auth()
+    novel_all_page_Download(novel[0], get_auth())
+
+
+def run_sort():
+    novel_sort_page_get()
+    for i in novel_sort:
         novel_sort_data_get(i)
-    time.sleep(10)
+        time.sleep(10)
+
+
+def search_local(novelnaem):
+    ls = ["玄幻魔法小說目錄.txt", "武俠修真小說目錄.txt", "科幻偵探小說目錄.txt", "原創言情小說目錄.txt", "都市小說目錄.txt", "輕小說目錄.txt", "其他小說目錄.txt"]
+    flag = False
+    novel_re = []
+    for i in ls:
+        print("尋找中... 檔案:" + i)
+        with open('G:/我的云端硬盘/小說用/' + i, 'r', encoding='UTF-8') as f:
+            novel_list = f.readlines()
+            novel_list = novel_list[2:]
+        novel = []
+        for s in novel_list:
+            s = s[:-1]
+            novel.append(s.split(","))
+        for s in novel:
+            if s[1].find(novelnaem) > 0:
+                print("在 '" + i + "' 找到了:\n", s)
+                novel_re.append(s)
+                print(novel_re)
+                flag = True
+                break
+        if flag:
+            return novel_re
+
 
 # novel_all_page_Download(1, get_auth())
