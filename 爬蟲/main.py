@@ -218,7 +218,7 @@ def run_sort():
         time.sleep(10)
 
 
-def search_local(novelnaem):
+def search_local(novelnaem): 
     ls = ["玄幻魔法小說目錄.txt", "武俠修真小說目錄.txt", "科幻偵探小說目錄.txt", "原創言情小說目錄.txt", "都市小說目錄.txt", "輕小說目錄.txt", "其他小說目錄.txt"]
     flag = False
     novel_re = []

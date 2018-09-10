@@ -1,7 +1,6 @@
 {
     "version": "0.2.0",
     "configurations": [
-        
         {
             "name": "Python Module",
             "type": "python",
@@ -30,21 +29,20 @@
             "request": "launch",
             "stopOnEntry": true,
             "program": "${file}",
-            "debugOptions": [
-            ]
+            "debugOptions": []
         },
         {
             "name": "Django",
             "type": "python",
             "request": "launch",
             "stopOnEntry": true,
-            "program": "${workspaceRoot}/manage.py",
+            "program": "${workspaceRoot}\\my_webserver\\myWeb\\manage.py",
             "args": [
                 "runserver",
                 "--noreload"
             ],
             "debugOptions": [
-                
+                "DEBUG = Flase"
             ]
         },
         {
