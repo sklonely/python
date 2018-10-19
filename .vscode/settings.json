@@ -1,10 +1,10 @@
 {
-    "python.pythonPath": "C:\\Users\\user\\Anaconda3\\python.exe",
+    "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe",
     "python.autoComplete.addBrackets": true,
     "python.envFile": "${workspaceFolder}/.envFile",
     "editor.formatOnSave": true,
     "python.autoComplete.extraPaths": [],
-    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Enabled": false,
     "python.formatting.provider": "yapf",
     "python.linting.flake8Args": [ // flake8Args 檢查器參數
         "--max-line-length=321", // 一行最長字數
