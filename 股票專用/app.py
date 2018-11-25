@@ -47,7 +47,7 @@ def all_crawl_price(days):
 # date -= datetime.timedelta(days=6)
 # data = crawl_price(date)
 # data.to_csv('db/Result.csv')
-df = pd.read_csv("db/Result.csv")
+df = pd.read_csv("../db/Result.csv")
 df1 = pd.DataFrame(df["證券代號"] + "-" + df["證券名稱"])
 
 for i in df.columns:

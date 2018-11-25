@@ -89,5 +89,4 @@ def run_rule(point, i):
         return True
 
 
-# panel_analysis(panel, max_Col, max_Row, systemmod)
-eliminate(panel)
+panel_analysis(panel, max_Col, max_Row, systemmod)

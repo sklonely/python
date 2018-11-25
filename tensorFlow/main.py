@@ -79,7 +79,7 @@ def case6():
 
     with tf.Session() as sess:
         sess.run(init)
-        for step in range(200):
+        for step in range(2000):
             sess.run(train)
             if step % 20 == 0:
                 print(step, sess.run([k, b, loss]))
@@ -100,7 +100,8 @@ def add_layers(inputs, input_size, output_size,
 
 def tenstest():
     # 創建基礎資料
-    x_data = np.random.rand(100)
+    x_data = np.random.rand(100,1)
+    print(x_data)
     noise = np.random.normal(0, 0.05, x_data.shape)
     y_data = x_data * 0.8 + 1.2 + noise
     # 創建類神經網路
@@ -118,5 +119,5 @@ def tenstest():
             if step % 20 == 0:
                 print(step, sess.run([loss]))
 
-
-case6()
+# case6()
+tenstest()

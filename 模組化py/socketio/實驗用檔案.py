@@ -15,14 +15,14 @@ def index():
 
 @socketio.on('client_Updata')
 def client_msg(msg):
-    print("0")
+    print("client_Updata")
     db.append([123, 12324421, 24])
     emit('server_response', {'data': [123, 12324421, 24]})
 
 
 @socketio.on('client_event')
 def client_msg(msg):
-    print("1")
+    print("client_event")
     db.append(msg['data'])
     emit('server_response', {'data': msg['data']})
 
@@ -32,6 +32,7 @@ def connected_msg(msg):
     print("socketio連接成功")
     for i in db:
         emit('server_response', {'data': i})
+    
 
 
 if __name__ == '__main__':

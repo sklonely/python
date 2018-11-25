@@ -241,5 +241,5 @@ def search_local(novelnaem):
         if flag:
             return novel_re
 
-
+novel_sort_page_get()
 # novel_all_page_Download(1, get_auth())
