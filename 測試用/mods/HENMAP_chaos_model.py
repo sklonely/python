@@ -66,8 +66,8 @@ class Chaos():
             x[2] = self.ax[2] * x[2] + self.dx[2]
         # 混沌原式計算
         t.append(round(g[0] * (x[1] * x[1]) + g[1] * x[1] + g[2] * x[2] + g[3], 16))
-        t.append(round(h[0] * x[0] + h[1], 6))
-        t.append(round(j[0] * x[1] + j[1], 6))
+        t.append(round(h[0] * x[0] + h[1], 16))
+        t.append(round(j[0] * x[1] + j[1], 16))
 
         return t
 
