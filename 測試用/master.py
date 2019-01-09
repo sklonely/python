@@ -70,15 +70,25 @@ def encodeing_colr(vis_o, use_key):
         if count == 32:
             count = 0
         vis[i] += use_key[0][count]
-    # vis = vis.transpose(1, 0, 2)
-    # count = 32
-    # for i in range(h):
-    #     count -= 1
-    #     if count == 1:
-    #         count = 31
-    #     vis[i] += use_key[1][count]
-    # vis = vis.transpose(1, 0, 2)
+    vis = vis.transpose(1, 0, 2)
+    count = 32
+    for i in range(h):
+        count -= 1
+        if count == 1:
+            count = 31
+        vis[i] += use_key[1][count]
+    vis = vis.transpose(1, 0, 2)
     return vis
+
+
+def send_data_socket(data):
+    flage = 1
+    while (flage):  # 交握失敗重新傳輸
+        clientsocket.send(str(len(data)).encode('utf-8').ljust(6))  # 傳送資料長度
+        ack = clientsocket.recv(1)  # ACK 交握接收
+        if ack == b'1':  # ACK 交握
+            flage = 0
+        clientsocket.send(data)
 
 
 if __name__ == "__main__":
@@ -104,12 +114,13 @@ if __name__ == "__main__":
 
                 # 將Um處理成socket可傳輸的形式
                 sendUm = str(Um).encode('utf-8')
-                print(len(sendUm))
+
                 # 加密影像
                 key = []
                 key.append(list(hashlib.sha256(str(round(X[0], 6)).encode('utf-8')).digest()))
                 key.append(list(hashlib.sha256(str(round(X[1], 6)).encode('utf-8')).digest()))
                 vise = encodeing_colr(vis, key)
+                #vise = vis
 
                 # 將影像處理成socket可傳送的形式
                 result, imgencode = cv2.imencode('.jpg', vise)  # 圖片編碼
@@ -117,17 +128,18 @@ if __name__ == "__main__":
                 stringData = data.tostring()  # 轉成bytes
 
                 # 傳送影像(BYTES)
-                flage = 1
-                while (flage):  # 交握失敗重新傳輸
-                    clientsocket.send(str(len(stringData)).encode('utf-8').ljust(6))  # 傳送資料長度
-                    ack = clientsocket.recv(1)  # ACK 交握接收
-                    if ack == b'1':  # ACK 交握
-                        flage = 0
-                    clientsocket.send(stringData)
+                send_data_socket(stringData)
+
+                # 傳送 Um
+                send_data_socket(sendUm)
+                pc_flage = 0
 
                 # 顯示原始影像
                 cv2.imshow(u'ORG', vis)  # 輸出圖像
                 cv2.waitKey(10)
+
+                # DEBUG 顯示專區
+                print("除錯用:", X[0])  # 相關訊息print
 
         except:
             break
