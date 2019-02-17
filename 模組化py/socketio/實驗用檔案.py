@@ -25,6 +25,7 @@ def client_msg(msg):
     print("1")
     db.append(msg['data'])
     emit('server_response', {'data': msg['data']})
+    emit('server_response', {'data': msg['data']})
 
 
 @socketio.on('connect_event')

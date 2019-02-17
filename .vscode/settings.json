@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe",
+    "python.pythonPath": "C:\\Users\\pc-sklonley\\Anaconda3\\python.exe",
     "python.autoComplete.addBrackets": true,
     "python.envFile": "${workspaceFolder}/.envFile",
     "editor.formatOnSave": true,
