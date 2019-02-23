@@ -242,4 +242,4 @@ def search_local(novelnaem):
             return novel_re
 
 
-# novel_all_page_Download(1, get_auth())
+novel_all_page_Download(1, get_auth())
