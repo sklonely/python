@@ -10,6 +10,15 @@
                 "cd ${file}",
                 "${file}"
             ]
+        },
+        {
+            "type": "npm",
+            "script": "install",
+            "path": "家庭控制AI/",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }

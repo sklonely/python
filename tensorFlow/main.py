@@ -64,7 +64,7 @@ def case5():  # Feed 可讓op在需要時再帶值
 def case6():
     # 創建資料模型
     x_data = np.random.rand(100)
-    y_data = x_data * 0.8 + 1.2
+    y_data = x_data * 0.255684 + 1.2
     # 創建TF模型
     b = tf.Variable(0.)
     k = tf.Variable(0.)
@@ -79,7 +79,7 @@ def case6():
 
     with tf.Session() as sess:
         sess.run(init)
-        for step in range(200):
+        for step in range(20000):
             sess.run(train)
             if step % 20 == 0:
                 print(step, sess.run([k, b, loss]))

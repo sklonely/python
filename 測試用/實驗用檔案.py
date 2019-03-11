@@ -1,66 +1,37 @@
-def encrypt(key, s):
-    b = bytearray(str(s).encode("utf8"))
-    n = len(b)  # 求出 b 的字节数
-    c = bytearray(n)
-    j = 0
-    key = int(key)
-    print(n)
-    for i in range(0, n):
-        if (b[i] & 128) == 0:
-            print("英數 ", b[i], (b[i] + key) % 127)
-            c[i] = (b[i] + key) % 127
-        elif (b[i] & 240) == 224:
-            print("中標頭 ", b[i], end="")
-            if b[i] + (key % 16) >= 240:
-                c[i] = b[i] + (key % 16) - 240 + 225
-                print("", c[i])
-            else:
-                c[i] = b[i] + (key % 16)
-                print("", c[i])
-        elif (b[i] & 192) == 128:
-            print("跟隨 ", b[i], end="")
-            if b[i] + (key % 64) >= 192:
-                c[i] = b[i] + (key % 64) - 192 + 128
-                print("", c[i])
-            else:
-                c[i] = b[i] + (key % 64)
-                print("", c[i])
-    return c.decode("utf8")
+# v = b"\x88\x08\xcd\x0b`\xd1\xb7\xc04\xf6\x7f<\t0\x9b\xc3D\xeaW\xbb\x87\xe9\xc2\x03x\x18\xa1'\xb3d\xc6\x83"
+# t = b"\x88\x08\xcd\x0b`\xd1\xb7\xc04\xf6\x7f<\t0\x9b\xc3D\xeaW\xbb\x87\xe9\xc2\x03x\x18\xa1'\xb3d\xc6\x83"
 
+# # print(type(v))
+# import codecs
+# import hashlib
+# import numpy as np
+# from AESmod import AEScharp
+# from Crypto.Cipher import AES
 
-def decode(key, bs):
-    b = bytearray(str(s).encode("utf8"))
-    n = len(b)  # 求出 b 的字节数
-    c = bytearray(n)
-    j = 0
-    key = int(key)
-    for i in range(0, n):
-        if (b[i] & 128) == 0:
-            print("英數 ", b[i])
-        elif (b[i] & 240) == 224:
-            print("中標頭 ", b[i], end="")
-            if b[i] - (key % 16) <= 224:
-                print("", b[i] - (key % 16) + 240 - 225)
-                c[i] = b[i] - (key % 16) + 240 - 225
-            else:
-                c[i] = b[i] - (key % 16)
-                print("", c[i])
-        elif (b[i] & 192) == 128:
-            print("跟隨 ", b[i], end="")
-            if b[i] - (key % 64) <= 128:
-                c[i] = b[i] - (key % 64) + 192 - 128
-                print("", c[i])
-            else:
-                c[i] = b[i] - (key % 64)
-                print("", c[i])
+# print(v[0])
+# print(type(v))
+# print("len", len(v))
+# # for i in v:
+# #     print(i)
+# v = str(v.hex())
 
-    return c.decode("utf8")
+# print(v)
+# print(type(v))
+# # a = hex(int(v, 16))
+# a = bytes.fromhex(v)
+# print(a)
+# print(codecs.encode(a))
 
-
-ss = "我要課五單"
-s = encrypt(123, ss)
-print("加密前:", ss)
-print()
-print("加密後:", s)
-de = decode(123, s)
-print(de)
+# aes = AEScharp()
+# key = hashlib.sha256(("test").encode('utf-8')).digest()
+# print("加密前金鑰", key.hex())
+# print("密文1", aes.en_ECB(str("123"), key))
+# print("密文2", aes.encrypt_ECB(str("123"), key).hex())
+# x = b'\x00'
+# print(x.hex())
+# array_alpha = [133, 53, 234, 241]
+# hex_string = "".join("%02x" % b for b in array_alpha)
+# print(hex_string)
+b = (1, 2, 3)
+c = [0, b]
+print(c[1][1])

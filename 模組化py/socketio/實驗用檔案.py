@@ -25,7 +25,6 @@ def client_msg(msg):
     print(msg['data'])
     db.append(msg['data'])
     emit('server_response', {'data': msg['data']})
-    emit('server_response', {'data': "午安"})
 
 
 @socketio.on('connect_event')
