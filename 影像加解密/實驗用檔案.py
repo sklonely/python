@@ -1,15 +1,17 @@
-#import from lib
+# import from lib
+from mods.HENMAP_chaos_model import Chaos
+from mods.AESmod import AEScharp
+import numpy as np
+
+import hashlib
+import time
+import threading
+
 import cv2
 import sys
 import os
 import random
-sys.path.append(sys.path[0] + '/mods/')
-from AESmod import AEScharp
-import threading
-import time
-import hashlib
-from HENMAP_chaos_model import Chaos
-import numpy as np
+
 # local modules
 #from video import create_capture
 pc_flage = 0
@@ -162,11 +164,15 @@ if __name__ == '__main__':
         # Y = sr_chaos.runSlave(2, Y, Um)
         if pc_flage == 2:
             key = []
-            key.append(list(hashlib.sha256(str(round(X[0], 6)).encode('utf-8')).digest()))
-            key.append(list(hashlib.sha256(str(round(X[1], 6)).encode('utf-8')).digest()))
+            key.append(
+                list(hashlib.sha256(str(round(X[0], 6)).encode('utf-8')).digest()))
+            key.append(
+                list(hashlib.sha256(str(round(X[1], 6)).encode('utf-8')).digest()))
             use_key = []
-            use_key.append(list(hashlib.sha256(str(round(Y[0], 6)).encode('utf-8')).digest()))
-            use_key.append(list(hashlib.sha256(str(round(Y[1], 6)).encode('utf-8')).digest()))
+            use_key.append(
+                list(hashlib.sha256(str(round(Y[0], 6)).encode('utf-8')).digest()))
+            use_key.append(
+                list(hashlib.sha256(str(round(Y[1], 6)).encode('utf-8')).digest()))
             print(key[0] == use_key[0], key[1] == use_key[1])
             pc_flage = 0
 

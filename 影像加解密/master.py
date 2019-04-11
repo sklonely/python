@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 # 文件名：server.py
 
+from mods.HENMAP_chaos_model import Chaos
+from mods.AESmod import AEScharp
 import hashlib
 import os
 import random
@@ -9,14 +11,12 @@ import sys
 import threading
 import time
 
-#import from lib
+# import from lib
 import cv2
 import numpy as np
 
 sys.path.append(sys.path[0] + '/mods/')
 
-from AESmod import AEScharp
-from HENMAP_chaos_model import Chaos
 
 # local modules
 #from video import create_capture
@@ -117,8 +117,10 @@ if __name__ == "__main__":
 
                 # 加密影像
                 key = []
-                key.append(list(hashlib.sha256(str(round(X[0], 6)).encode('utf-8')).digest()))
-                key.append(list(hashlib.sha256(str(round(X[1], 6)).encode('utf-8')).digest()))
+                key.append(
+                    list(hashlib.sha256(str(round(X[0], 6)).encode('utf-8')).digest()))
+                key.append(
+                    list(hashlib.sha256(str(round(X[1], 6)).encode('utf-8')).digest()))
                 vise = encodeing_colr(vis, key)
                 #vise = vis
 
