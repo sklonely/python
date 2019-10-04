@@ -1,0 +1,5 @@
+FROM continuumio/anaconda3
+volume C:\Users\sklonely\Desktop\nist
+COPY datare.py  /app/
+WORKDIR /app/
+CMD python datare.py

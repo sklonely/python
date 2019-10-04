@@ -37,8 +37,8 @@ paswElement = driver.find_element_by_name("password")
 loginElement = driver.find_element_by_class_name("cssLoginBtn")
 print(driver.find_element_by_name("username").location)
 # 搜尋框輸入字
-uesElement.send_keys("s16115106" + Keys.TAB)
-paswElement.send_keys("lonely1953721" + Keys.ENTER)
+uesElement.send_keys("*" + Keys.TAB)
+paswElement.send_keys("*" + Keys.ENTER)
 # 提交
 time.sleep(2.8)
 classElement = driver.find_element_by_xpath("//*[@id='tabsCourse']/tbody/tr[6]/td[1]/div/a")

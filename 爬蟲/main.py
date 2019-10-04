@@ -28,8 +28,8 @@ while 1:
 
 # 變數管制
 # 使用者帳密
-username = ''
-password = ''
+username = 'asd1953721'
+password = 'asd195375'
 ##
 forum_url = "http://www02.eyny.com/"  # 論壇網址
 novel_sort = []  # 小說分類 [["玄幻魔法小說", html], ..]
@@ -218,7 +218,7 @@ def run_sort():
         time.sleep(10)
 
 
-def search_local(novelnaem): 
+def search_local(novelnaem):
     ls = ["玄幻魔法小說目錄.txt", "武俠修真小說目錄.txt", "科幻偵探小說目錄.txt", "原創言情小說目錄.txt", "都市小說目錄.txt", "輕小說目錄.txt", "其他小說目錄.txt"]
     flag = False
     novel_re = []
@@ -242,4 +242,4 @@ def search_local(novelnaem):
             return novel_re
 
 
-novel_all_page_Download(1, get_auth())
+novel_sort_page_get()

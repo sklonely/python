@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %} My store {% endblock %}
+{% block content%}
+  <div id="title1">店家列表</div>
+  <ul class="storeListBox">
+    {% for vlist in vendor_list %}
+
+    <li class="storeItem">
+        <a href={{ vlist.get_absolute_url }}>
+          <h1> {{vlist.vendor_name}}</h1>
+          <div>
+            <i class="fas fa-arrow-down"></i>
+            <p>進入</p>
+          </div>
+        </a>
+      </li>
+
+    {% endfor %}
+    </ul>
+{% endblock %}

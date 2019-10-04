@@ -28,7 +28,7 @@ GPIO.setup(3, GPIO.OUT)
 
 pwm = GPIO.PWM(2, 80)
 
-pwm.start(0)
+pwm.start(0)-
 
 while 1:
     for i in range(0, 101, 1):
